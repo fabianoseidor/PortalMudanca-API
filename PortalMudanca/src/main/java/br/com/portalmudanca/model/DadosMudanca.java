@@ -6,10 +6,14 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -44,6 +48,11 @@ public class DadosMudanca implements Serializable{
 	@Column(name = "JUSTIFICATIVA_MUDANCA", length = 5000)
 	private String justificativa_mudanca;
 
+	@ManyToOne(targetEntity = Mudanca.class)
+	@JoinColumn(name = "id_mudanca", nullable = false, referencedColumnName = "id_mudanca", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_DADOS_MUDANCA_MUD"))
+	private Mudanca mudanca;
+
+	
 	public Long getId_dados_mudanca() {
 		return id_dados_mudanca;
 	}

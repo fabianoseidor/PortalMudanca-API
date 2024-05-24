@@ -42,12 +42,9 @@ public class TipoMudanca implements Serializable{
 		dt_criacao     = atual;
 	}
 
-
-
 	public Long getId_tipo_mudanca() {
 		return id_tipo_mudanca;
 	}
-
 
 	public void setId_tipo_mudanca(Long id_tipo_mudanca) {
 		this.id_tipo_mudanca = id_tipo_mudanca;

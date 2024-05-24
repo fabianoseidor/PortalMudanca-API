@@ -5,10 +5,14 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -32,7 +36,11 @@ public class CategoriaPadrao implements Serializable{
 	private LocalDateTime dt_criacao;
 	
 	@Column(name = "OBS", length = 200)
-	private String obs; 	
+	private String obs;
+	
+	@ManyToOne(targetEntity = Mudanca.class)
+	@JoinColumn(name = "id_mudanca", nullable = true, referencedColumnName = "id_mudanca", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_CATEGORIA_PADRAO_MUDANCA"))
+	private Mudanca mudanca;	
 
 	@PrePersist
 	public void prePersist() {

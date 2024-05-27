@@ -17,6 +17,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name = "PLANO_COMUNICACAO")
 @SequenceGenerator(name = "seq_plano_comunicacao", sequenceName = "seq_plano_comunicacao", allocationSize = 1, initialValue = 1)
@@ -30,13 +31,13 @@ public class PlanoComunicacao implements Serializable{
 	private Long id_plano_comunicacao;
 	
 	@Column(name = "NOME_CONTATO", length = 200 ,nullable = false)
-	private Long nome_contato;
+	private String nome_contato;
 	
 	@Column(name = "EMAIL", length = 200 ,nullable = false)
-	private Long email;
+	private String email;
 	
 	@Column(name = "EMPRESA", length = 200 ,nullable = false)
-	private Long empresa;
+	private String empresa;
 	
 	@Column(name = "DT_CRIACAO", nullable = false, columnDefinition = "TIMESTAMP")
 	private LocalDateTime dt_criacao;
@@ -55,31 +56,39 @@ public class PlanoComunicacao implements Serializable{
 		return id_plano_comunicacao;
 	}
 
+	public Mudanca getMudanca() {
+		return mudanca;
+	}
+
+	public void setMudanca(Mudanca mudanca) {
+		this.mudanca = mudanca;
+	}
+
 	public void setId_plano_comunicacao(Long id_plano_comunicacao) {
 		this.id_plano_comunicacao = id_plano_comunicacao;
 	}
 
-	public Long getNome_contato() {
+	public String getNome_contato() {
 		return nome_contato;
 	}
 
-	public void setNome_contato(Long nome_contato) {
+	public void setNome_contato(String nome_contato) {
 		this.nome_contato = nome_contato;
 	}
 
-	public Long getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(Long email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public Long getEmpresa() {
+	public String getEmpresa() {
 		return empresa;
 	}
 
-	public void setEmpresa(Long empresa) {
+	public void setEmpresa(String empresa) {
 		this.empresa = empresa;
 	}
 
@@ -91,13 +100,6 @@ public class PlanoComunicacao implements Serializable{
 		this.dt_criacao = dt_criacao;
 	}
 
-	public Mudanca getMudanca() {
-		return mudanca;
-	}
-
-	public void setMudanca(Mudanca mudanca) {
-		this.mudanca = mudanca;
-	}
 
 	@Override
 	public int hashCode() {
@@ -122,5 +124,6 @@ public class PlanoComunicacao implements Serializable{
 				+ ", email=" + email + ", empresa=" + empresa + ", dt_criacao=" + dt_criacao + ", mudanca=" + mudanca
 				+ "]";
 	}
-	
+
+
 }

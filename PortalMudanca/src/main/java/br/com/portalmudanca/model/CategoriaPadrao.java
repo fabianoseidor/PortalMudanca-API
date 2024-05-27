@@ -5,14 +5,10 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -20,6 +16,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "CATEGORIA_PADRAO")
 @SequenceGenerator(name = "seq_categoria_padrao", sequenceName = "seq_categoria_padrao", allocationSize = 1, initialValue = 1)
+
 public class CategoriaPadrao implements Serializable{
 
 	private static final long serialVersionUID = 5554328306966819593L;
@@ -38,16 +35,11 @@ public class CategoriaPadrao implements Serializable{
 	@Column(name = "OBS", length = 200)
 	private String obs;
 	
-	@ManyToOne(targetEntity = Mudanca.class)
-	@JoinColumn(name = "id_mudanca", nullable = true, referencedColumnName = "id_mudanca", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_CATEGORIA_PADRAO_MUDANCA"))
-	private Mudanca mudanca;	
-
 	@PrePersist
 	public void prePersist() {
 		final LocalDateTime atual = LocalDateTime.now();
 		dt_criacao     = atual;
 	}
-
 	
 	public LocalDateTime getDt_criacao() {
 		return dt_criacao;
@@ -105,7 +97,4 @@ public class CategoriaPadrao implements Serializable{
 		return "CategoriaPadrao [id_categoria_padrao=" + id_categoria_padrao + ", categoria_padrao=" + categoria_padrao
 				+ ", dt_criacao=" + dt_criacao + ", obs=" + obs + "]";
 	}
-	
-	
-	
 }

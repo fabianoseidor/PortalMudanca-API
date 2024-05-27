@@ -24,6 +24,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "MUDANCA")
 @SequenceGenerator(name = "seq_mudanca", sequenceName = "seq_mudanca", allocationSize = 1, initialValue = 1)
+
 public class Mudanca implements Serializable{
 
 	private static final long serialVersionUID = -6221853869394115281L;
@@ -61,7 +62,7 @@ public class Mudanca implements Serializable{
 	private ImpactoMudanca impactoMudanca;
 
 	@ManyToOne(targetEntity = CategoriaPadrao.class)
-	@JoinColumn(name = "id_categoria_padrao", referencedColumnName = "id_categoria_padrao", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_MUDANCA_CATEGORIA_PADRAO"))
+	@JoinColumn(name = "id_categoria_padrao", referencedColumnName = "id_categoria_padrao", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_MUDANCA_CATEGORIA_PADRAO"))
 	private CategoriaPadrao categoriaPadrao;
 
 	
@@ -77,52 +78,12 @@ public class Mudanca implements Serializable{
         dt_alteracao = atual;
     }
 
-	public Long getId_mudanca() {
-		return id_mudanca;
-	}
-
-	public void setId_mudanca(Long id_mudanca) {
-		this.id_mudanca = id_mudanca;
-	}
-
-	public String getTitulo_mudanca() {
-		return titulo_mudanca;
-	}
-
-	public void setTitulo_mudanca(String titulo_mudanca) {
-		this.titulo_mudanca = titulo_mudanca;
-	}
-
-	public LocalDateTime getDt_criacao() {
-		return dt_criacao;
-	}
-
-	public void setDt_criacao(LocalDateTime dt_criacao) {
-		this.dt_criacao = dt_criacao;
-	}
-
 	public LocalDateTime getDt_alteracao() {
 		return dt_alteracao;
 	}
 
 	public void setDt_alteracao(LocalDateTime dt_alteracao) {
 		this.dt_alteracao = dt_alteracao;
-	}
-
-	public String getLogin_user() {
-		return login_user;
-	}
-
-	public void setLogin_user(String login_user) {
-		this.login_user = login_user;
-	}
-
-	public StatusRdm getStatusMudanca() {
-		return statusMudanca;
-	}
-
-	public void setStatusMudanca(StatusRdm statusMudanca) {
-		this.statusMudanca = statusMudanca;
 	}
 
 	public TipoMudanca getTipoMudanca() {
@@ -157,6 +118,47 @@ public class Mudanca implements Serializable{
 		this.categoriaPadrao = categoriaPadrao;
 	}
 
+	public Long getId_mudanca() {
+		return id_mudanca;
+	}
+
+	public void setId_mudanca(Long id_mudanca) {
+		this.id_mudanca = id_mudanca;
+	}
+
+	public String getTitulo_mudanca() {
+		return titulo_mudanca;
+	}
+
+	public void setTitulo_mudanca(String titulo_mudanca) {
+		this.titulo_mudanca = titulo_mudanca;
+	}
+
+	public LocalDateTime getDt_criacao() {
+		return dt_criacao;
+	}
+
+	public void setDt_criacao(LocalDateTime dt_criacao) {
+		this.dt_criacao = dt_criacao;
+	}
+
+	public String getLogin_user() {
+		return login_user;
+	}
+
+	public void setLogin_user(String login_user) {
+		this.login_user = login_user;
+	}
+
+	public StatusRdm getStatusMudanca() {
+		return statusMudanca;
+	}
+
+	public void setStatusMudanca(StatusRdm statusMudanca) {
+		this.statusMudanca = statusMudanca;
+	}
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id_mudanca);
@@ -181,6 +183,6 @@ public class Mudanca implements Serializable{
 				+ ", tipoMudanca=" + tipoMudanca + ", criticidade=" + criticidade + ", impactoMudanca=" + impactoMudanca
 				+ ", categoriaPadrao=" + categoriaPadrao + "]";
 	}
-    
-    
+
+   
 }

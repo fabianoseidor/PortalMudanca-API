@@ -63,5 +63,4 @@ public class TipoArq implements Serializable{
 	public String toString() {
 		return "TipoArq [id_tipo_arq=" + id_tipo_arq + ", tipo_arq=" + tipo_arq + "]";
 	}
-
 }

@@ -21,6 +21,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "ARQUIVOS_MUDANCA")
 @SequenceGenerator(name = "seq_arquivos_mudanca", sequenceName = "seq_arquivos_mudanca", allocationSize = 1, initialValue = 1)
+
 public class ArquivosMudanca implements Serializable{
 
 	private static final long serialVersionUID = -4800083005942260356L;
@@ -112,7 +113,5 @@ public class ArquivosMudanca implements Serializable{
 		return "ArquivosMudanca [id_arquivos_mudanca=" + id_arquivos_mudanca + ", nome_arq=" + nome_arq + ", tipoArq="
 				+ tipoArq + ", mudanca=" + mudanca + ", dt_criacao=" + dt_criacao + "]";
 	}
-    
-    
 
 }

@@ -13,6 +13,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name = "IMPACTO_MUDANCA")
 @SequenceGenerator(name = "seq_impacto_mudanca", sequenceName = "seq_impacto_mudanca", allocationSize = 1, initialValue = 1)
@@ -94,5 +95,4 @@ public class ImpactoMudanca implements Serializable{
 		return "ImpactoMudanca [id_impacto_mudanca=" + id_impacto_mudanca + ", impacto_mudanca=" + impacto_mudanca
 				+ ", dt_criacao=" + dt_criacao + ", obs=" + obs + "]";
 	}
-
 }

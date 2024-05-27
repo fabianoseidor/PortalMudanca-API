@@ -12,9 +12,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+
 @Entity
 @Table(name = "CRITICIDADE")
 @SequenceGenerator(name = "seq_criticidade", sequenceName = "seq_criticidade", allocationSize = 1, initialValue = 1)
+
 public class Criticidade implements Serializable{
 
 	private static final long serialVersionUID = 4618126659048867283L;
@@ -95,6 +97,5 @@ public class Criticidade implements Serializable{
 	public String toString() {
 		return "Criticidade [id_criticidade=" + id_criticidade + ", criticidade=" + criticidade + ", dt_criacao="
 				+ dt_criacao + ", obs=" + obs + "]";
-	}
-	
+	}	
 }

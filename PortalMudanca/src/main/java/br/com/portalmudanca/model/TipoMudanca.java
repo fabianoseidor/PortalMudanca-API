@@ -102,5 +102,4 @@ public class TipoMudanca implements Serializable{
 		return "TipoMudanca [id_tipo_mudanca=" + id_tipo_mudanca + ", tipo_mudanca=" + tipo_mudanca + ", dt_criacao="
 				+ dt_criacao + ", obs=" + obs + "]";
 	}
-
 }

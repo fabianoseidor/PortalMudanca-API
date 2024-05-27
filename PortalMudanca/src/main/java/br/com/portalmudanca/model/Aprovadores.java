@@ -26,7 +26,22 @@ public class Aprovadores implements Serializable{
 	
 	@Column(name = "OBS", length = 5000)
 	private String obs;
-
+	
+	/* Esta eh uma forma de realizar uma anotacao JPA de N para N
+	@OneToMany(fetch = FetchType.LAZY) // Anotacao de 1 para muintos
+	// @JoinTable ==> são usadas para mapear uma relação ManyToMany entre duas entidades.
+	@JoinTable( name = "LISTA_APROVADORES", // Nome da tabela intermediaria de 1 para Muintos
+			    // Inicio da referencia da tabela "APROVADORES" para a tabela "LISTA_APROVADORES"
+			    uniqueConstraints = @UniqueConstraint( columnNames = { "ID_MUDANCA", "ID_APROVADORES" }, name = "uniq_LIST_APRO_MUDANCAS" ),
+	            joinColumns = @JoinColumn(name = "ID_APROVADORES", referencedColumnName = "ID_APROVADORES", table = "APROVADORES", unique = false, foreignKey = @ForeignKey(name = "fk_MUD_APROV_LIST", value = ConstraintMode.CONSTRAINT) ),
+	            // fim referencia da tabela "LISTA_APROVADORES" apontando para a tabela "APROVADORES"
+	            
+	            // Inicio da referencia da tabela "MUDANCA" para a tabela "LISTA_APROVADORES"
+	            inverseJoinColumns = @JoinColumn( name = "ID_MUDANCA", unique = false, referencedColumnName = "ID_MUDANCA", table = "MUDANCA", foreignKey = @ForeignKey(name = "fk_APROV_LIST_MUD", value = ConstraintMode.CONSTRAINT ) )
+	)
+	private List<Mudanca> mudancas;
+    */
+	
 	public Long getIdAprovadores() {
 		return idAprovadores;
 	}

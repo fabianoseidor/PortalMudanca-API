@@ -17,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
+
 @Entity
 @SequenceGenerator(name = "seq_dados_mudanca", sequenceName = "seq_dados_mudanca", allocationSize = 1, initialValue = 1)
 @Table(name = "DADOS_MUDANCA")
@@ -51,8 +52,15 @@ public class DadosMudanca implements Serializable{
 	@ManyToOne(targetEntity = Mudanca.class)
 	@JoinColumn(name = "id_mudanca", nullable = false, referencedColumnName = "id_mudanca", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_DADOS_MUDANCA_MUD"))
 	private Mudanca mudanca;
-
 	
+	public Mudanca getMudanca() {
+		return mudanca;
+	}
+
+	public void setMudanca(Mudanca mudanca) {
+		this.mudanca = mudanca;
+	}
+
 	public Long getId_dados_mudanca() {
 		return id_dados_mudanca;
 	}
@@ -130,7 +138,9 @@ public class DadosMudanca implements Serializable{
 	public String toString() {
 		return "DadosMudanca [id_dados_mudanca=" + id_dados_mudanca + ", dt_inicio=" + dt_inicio + ", hr_inicio="
 				+ hr_inicio + ", dt_final=" + dt_final + ", hr_final=" + hr_final + ", dsc_mudanca=" + dsc_mudanca
-				+ ", justificativa_mudanca=" + justificativa_mudanca + "]";
+				+ ", justificativa_mudanca=" + justificativa_mudanca + ", mudanca=" + mudanca + "]";
 	}
-	
+
+
+
 }

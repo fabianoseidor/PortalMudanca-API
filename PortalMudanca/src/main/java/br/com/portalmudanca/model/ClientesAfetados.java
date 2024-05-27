@@ -2,24 +2,16 @@ package br.com.portalmudanca.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "CLIENTES_AFETADOS")
@@ -33,7 +25,7 @@ public class ClientesAfetados implements Serializable{
 	@Column(name = "ID_CLIENTES_AF")
 	private Long id_clientes_af;
 	
-	@Column(name = "ID_CLIENTE_PORTAL")	
+	@Column(name = "ID_CLIENTE_PORTAL", nullable = false)	
 	private Long id_cliente_portal;
 	
 	@Column(name = "NOME_CLIENTE", nullable = false, length = 100)
@@ -42,7 +34,7 @@ public class ClientesAfetados implements Serializable{
 	@Column(name = "DT_CRIACAO", nullable = false, columnDefinition = "TIMESTAMP")
 	private LocalDateTime dt_criacao;
 	
-	
+	/* Esta eh uma forma de realizar uma anotacao JPA de N para N
 	@OneToMany(fetch = FetchType.LAZY)// Anotacao de 1 para muintos
 	// @JoinTable ==> são usadas para mapear uma relação ManyToMany entre duas entidades.
 	@JoinTable(name = "MUDANCA_CLIENTES_AFETADOS", // Nome da tabela intermediaria de 1 para Muintos
@@ -55,6 +47,8 @@ public class ClientesAfetados implements Serializable{
 	           inverseJoinColumns = @JoinColumn(name = "ID_MUDANCA", unique = false, referencedColumnName = "ID_MUDANCA", table = "MUDANCA", foreignKey = @ForeignKey(name = "fk_CLIE_AFE_MUD", value = ConstraintMode.CONSTRAINT))
 	)
 	private List<Mudanca> mudancas;
+	*/
+	
 
     @PrePersist
     public void prePersist() {

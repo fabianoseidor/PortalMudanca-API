@@ -1,13 +1,18 @@
 package br.com.portalmudanca.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -15,7 +20,9 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "REPORT_FINAL")
 @SequenceGenerator(name = "seq_report_final", sequenceName = "seq_report_final", allocationSize = 1, initialValue = 1)
-public class ReportFinal {
+public class ReportFinal implements Serializable{
+
+	private static final long serialVersionUID = -3021784576154221465L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_report_final")
@@ -27,7 +34,10 @@ public class ReportFinal {
 	
 	@Column(name = "DT_CRIACAO", nullable = false, columnDefinition = "TIMESTAMP")
 	private LocalDateTime dt_criacao;
-
+	
+	@ManyToOne(targetEntity = Mudanca.class)
+	@JoinColumn(name = "id_mudanca", nullable = true, referencedColumnName = "id_mudanca", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_MUD_CAT_PAD"))
+	private Mudanca mudanca;
 
 	@PrePersist
 	public void prePersist() {
@@ -35,6 +45,14 @@ public class ReportFinal {
 		dt_criacao     = atual;
 	}
 
+
+	public Mudanca getMudanca() {
+		return mudanca;
+	}
+
+	public void setMudanca(Mudanca mudanca) {
+		this.mudanca = mudanca;
+	}
 
 	public Long getId_report_final() {
 		return id_report_final;
@@ -88,9 +106,6 @@ public class ReportFinal {
 	@Override
 	public String toString() {
 		return "ReportFinal [id_report_final=" + id_report_final + ", report_final=" + report_final + ", dt_criacao="
-				+ dt_criacao + "]";
+				+ dt_criacao + ", mudanca=" + mudanca + "]";
 	}
-
-    
-	
 }

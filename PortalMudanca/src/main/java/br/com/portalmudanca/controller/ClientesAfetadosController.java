@@ -1,8 +1,12 @@
 package br.com.portalmudanca.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.portalmudanca.model.ClientesAfetados;
 import br.com.portalmudanca.service.ClientesAfetadosService;
@@ -13,10 +17,12 @@ public class ClientesAfetadosController {
 	@Autowired
 	private ClientesAfetadosService clientesAfetadosService;
 	
-	
-	@PostMapping("/salvarClientesAfetados")
-	public ClientesAfetados salvarClientesAfetados( ClientesAfetados clientesAfetado ) {
+	@ResponseBody // Retorno da API 
+	@PostMapping("/salvarClientesAfetados") // Mepeando a url para receber um JSON
+	public ResponseEntity< ClientesAfetados> salvarClientesAfetados( @RequestBody ClientesAfetados clientesAfetado ) {// @RequestBody ==> Recebe um JSON e converte para Objeto. 
 		
-		return clientesAfetadosService.save(clientesAfetado);
+		ClientesAfetados cliSalvo = clientesAfetadosService.save(clientesAfetado);
+		
+		return new ResponseEntity<ClientesAfetados>( cliSalvo, HttpStatus.OK );
 	}
 }

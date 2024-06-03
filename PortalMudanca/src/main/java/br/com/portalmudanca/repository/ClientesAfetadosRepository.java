@@ -9,5 +9,8 @@ import br.com.portalmudanca.model.ClientesAfetados;
 @Repository
 @Transactional
 public interface ClientesAfetadosRepository extends JpaRepository<ClientesAfetados, Long>{
-
+/*
+	@Query("SELECT id_clientes_af, id_cliente_portal, dt_criacao, nome_cliente FROM clientes_afetados")
+	List<ClientesAfetados> buscarClientesAfetados();
+*/	
 }

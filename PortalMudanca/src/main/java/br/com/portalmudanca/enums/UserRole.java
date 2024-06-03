@@ -13,12 +13,9 @@ public enum UserRole {
 	}
 	
 	
-	public String getDescricao() {
+	public String getRole() {
 		return role;
 	}
 	
-	@Override
-	public String toString() {
-		return this.role;
-	}
+
 }

@@ -2,9 +2,12 @@ package br.com.portalmudanca.model;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,20 +18,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import br.com.portalmudanca.enums.UserRole;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
+
+@SequenceGenerator(name = "seq_users", sequenceName = "seq_users", allocationSize = 1, initialValue = 1)
 @Entity
 @Table(name = "USERS")
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(of = "id")
-@SequenceGenerator(name = "seq_users", sequenceName = "seq_users", allocationSize = 1, initialValue = 1)
 public class Users implements UserDetails{
 
 	private static final long serialVersionUID = 1878887316826737875L;
@@ -42,9 +37,11 @@ public class Users implements UserDetails{
 	private String login;
 	
 	@Column(nullable = false)
-	private String password;
+	private String senha;
+	
 	
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
 
@@ -57,7 +54,7 @@ public class Users implements UserDetails{
 
 	@Override
 	public String getPassword() {
-		return this.password;
+		return this.senha;
 	}
 
 	@Override
@@ -85,6 +82,55 @@ public class Users implements UserDetails{
 		return true;
 	}
 	
-	
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public UserRole getRole() {
+		return role;
+	}
+
+	public void setRole(UserRole role) {
+		this.role = role;
+	}
+
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Users other = (Users) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String toString() {
+		return "Users [id=" + id + ", login=" + login + ", senha=" + senha + ", role=" + role + "]";
+	}	
+
+	
 }

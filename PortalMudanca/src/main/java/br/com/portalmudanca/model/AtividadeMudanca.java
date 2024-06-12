@@ -20,7 +20,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ATIVIDADE_MUDANCA")
 @SequenceGenerator(name = "seq_atividade_mudanca", sequenceName = "seq_atividade_mudanca", allocationSize = 1, initialValue = 1)
-
 public class AtividadeMudanca implements Serializable{
 
 	private static final long serialVersionUID = 9118672086133844820L;
@@ -43,6 +42,18 @@ public class AtividadeMudanca implements Serializable{
 	@ManyToOne(targetEntity = Mudanca.class)
 	@JoinColumn(name = "id_mudanca", nullable = true, referencedColumnName = "id_mudanca", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_ATIV_MUD"))
 	private Mudanca mudanca;
+	
+	@ManyToOne(targetEntity = StatusAtividade.class)
+	@JoinColumn(name = "id_status_atividade", referencedColumnName = "id_status_atividade", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_STATUS_ATIVIDADE"))
+	private StatusAtividade statusAtividade;
+	
+	public StatusAtividade getStatusAtividade() {
+		return statusAtividade;
+	}
+
+	public void setStatusAtividade(StatusAtividade statusAtividade) {
+		this.statusAtividade = statusAtividade;
+	}
 
 	public Long getId_atividade_mudanca() {
 		return id_atividade_mudanca;

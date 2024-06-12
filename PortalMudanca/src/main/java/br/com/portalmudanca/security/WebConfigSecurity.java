@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSessionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+/*
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,16 +16,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
+*/
 import br.com.portalmudanca.service.ImplementacaoUserDetailService;
 
 
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements HttpSessionListener  {
-
+// @EnableWebSecurity
+// @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+public class WebConfigSecurity /* extends WebSecurityConfigurerAdapter*/ implements HttpSessionListener  {
+/*
 	@Autowired
 	private ImplementacaoUserDetailService implementacaoUserDetailService;
 	
@@ -33,19 +34,19 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 		
 		
 		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-		.disable().authorizeRequests().antMatchers("/").permitAll() /* Liberar p contesto principal, exe.: tela de Login */
-//		.antMatchers("/index","/pagamento/**","/resources/**","/static/**","/templates/**","classpath:/static/**","classpath:/resources/**","classpath:/templates/**").permitAll()
-//		.antMatchers(HttpMethod.POST, "/requisicaojunoboleto/**", "/notificacaoapiv2","/pagamento/**","/resources/**","/static/**","/templates/**","classpath:/static/**","classpath:/resources/**","classpath:/templates/**","/recuperarSenha","/criaAcesso").permitAll()
-//		.antMatchers(HttpMethod.GET, "/requisicaojunoboleto/**", "/notificacaoapiv2","/pagamento/**","/resources/**","/static/**","/templates/**","classpath:/static/**","classpath:/resources/**","classpath:/templates/**","/recuperarSenha","/criaAcesso").permitAll()
-		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+		.disable().authorizeRequests().antMatchers("/").permitAll()
+		.antMatchers("/index","/resources//*","/static//*","/templates//*","classpath:/static//*","classpath:/resources//*","classpath:/templates//*").permitAll()
+		.antMatchers(HttpMethod.POST, "/requisicaojunoboleto//*", "/notificacaoapiv2","/resources//*","/static//*","/templates//*","classpath:/static//*","classpath:/resources//*","classpath:/templates//*","/recuperarSenha","/criaAcesso").permitAll()
+		.antMatchers(HttpMethod.GET, "/requisicaojunoboleto//*", "/notificacaoapiv2","/resources//*","/static//*","/templates//*","classpath:/static//*","classpath:/resources//*","classpath:/templates//*","/recuperarSenha","/criaAcesso").permitAll()
+		.antMatchers(HttpMethod.OPTIONS, "//*").permitAll()
 		
-		/* redireciona ou da um retorno para index quando desloga*/
+		// redireciona ou da um retorno para index quando desloga
 		.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index")
 		
-		/*mapeia o logout do sistema*/
+		//mapeia o logout do sistema
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 		
-		/*Filtra as requisicoes para login de JWT*/
+		//Filtra as requisicoes para login de JWT
 		.and().addFilterAfter(new JWTLoginFilter("/login", authenticationManager()),
 				UsernamePasswordAuthenticationFilter.class)
 		
@@ -54,23 +55,27 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 	}
 	
 	
-	
+	//Irá consultar o user no banco com Spring Security
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		auth.userDetailsService(implementacaoUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
-		
-	}
+	   auth.userDetailsService(implementacaoUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
 	
-	
+    }
+
+	// Ignora algumas URL livre de autenticação 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-//		web.ignoring().antMatchers(HttpMethod.GET, "/salvarClientesAfetados")
-//		.antMatchers(HttpMethod.POST, "/salvarClientesAfetados");
+		web.ignoring().
+		    antMatchers(HttpMethod.GET, "/requisicaojunoboleto//*", "/notificacaoapiv2","/resources//*",
+		    		"/static//*","/templates//*","classpath:/static//*","classpath:/resources//*",
+		    		"classpath:/templates//*","/webjars//*","/WEB-INF/classes/static//*","/recuperarSenha","/criaAcesso")
+		   .antMatchers(HttpMethod.POST,"/requisicaojunoboleto//*", "/notificacaoapiv2",
+				   "/resources//*","/static//*","/templates//*",
+				   "classpath:/static//*","classpath:/resources//*","classpath:/templates//*",
+				   "/webjars//*","/WEB-INF/classes/static//*","/recuperarSenha","/criaAcesso");
+		// Ingnorando URL no momento para nao autenticar 
 	}
-	
-	
-	
-	
+*/	
 	
 }

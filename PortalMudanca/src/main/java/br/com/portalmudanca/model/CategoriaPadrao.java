@@ -34,7 +34,7 @@ public class CategoriaPadrao implements Serializable{
 	
 	@Column(name = "OBS", length = 200)
 	private String obs;
-	
+		
 	@PrePersist
 	public void prePersist() {
 		final LocalDateTime atual = LocalDateTime.now();
@@ -45,11 +45,9 @@ public class CategoriaPadrao implements Serializable{
 		return dt_criacao;
 	}
 
-
 	public void setDt_criacao(LocalDateTime dt_criacao) {
 		this.dt_criacao = dt_criacao;
 	}
-
 
 	public Long getId_categoria_padrao() {
 		return id_categoria_padrao;

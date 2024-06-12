@@ -62,7 +62,7 @@ public class PortalMudancaApplicationTests {
 	private ClientesAfetadosController clientesAfetadosController;
 	
 	@Test
-	public void contextLoads() {
+	public void contextLoads() throws ExceptionCustomizada {
 		ClientesAfetados  cli = new ClientesAfetados();
 		
 		cli.setId_cliente_portal(2L);

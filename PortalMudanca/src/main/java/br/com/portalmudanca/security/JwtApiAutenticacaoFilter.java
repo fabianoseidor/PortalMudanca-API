@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.filter.GenericFilterBean;
+/*
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
+*/
 /* Filtro onde todas as requisicoes serão capturadas para autenticar */
 public class JwtApiAutenticacaoFilter extends GenericFilterBean{
 
@@ -23,11 +24,11 @@ public class JwtApiAutenticacaoFilter extends GenericFilterBean{
 		try {
 		
 			/*Estabele a autenticao do user*/			
-			Authentication authentication = new JWTTokenAutenticacaoService().
-					getAuthetication((HttpServletRequest) request, (HttpServletResponse) response);
+//			Authentication authentication = new JWTTokenAutenticacaoService().
+//					getAuthetication((HttpServletRequest) request, (HttpServletResponse) response);
 			
 			/*Coloca o processo de autenticacao para o spring secutiry*/
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+//			SecurityContextHolder.getContext().setAuthentication(authentication);
 			
 			chain.doFilter(request, response);
 		

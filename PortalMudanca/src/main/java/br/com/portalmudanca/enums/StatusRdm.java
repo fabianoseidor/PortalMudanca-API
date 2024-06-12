@@ -14,19 +14,19 @@ public enum StatusRdm {
 	MUDANCA_ABORTADA("Mudança Concluida com Abortada"),
 	MUDANCA_ABORTADA_ROLLBACK("Mudança Concluida com Abortada com Rollback");
 	
-	private String descrica;
+	private String statusRdm;
 	
 	private StatusRdm( String desc) {
-		this.descrica = desc;
+		this.statusRdm = desc;
 	}
 
-	public String getDescrica() {
-		return descrica;
+	public String getStatusRdm() {
+		return statusRdm;
 	}
 
    @Override
     public String toString() {
-	  return this.descrica;
+	  return this.statusRdm;
    }
 	
 }

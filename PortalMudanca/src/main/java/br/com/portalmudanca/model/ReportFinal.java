@@ -29,7 +29,7 @@ public class ReportFinal implements Serializable{
 	@Column(name = "ID_REPORT_FINAL", nullable = false)
 	private Long id_report_final;
 	
-	@Column(name = "REPORT_FINAL", nullable = false, length = 5000)
+	@Column(name = "REPORT_FINAL", length = 5000)
 	private String report_final;
 	
 	@Column(name = "DT_CRIACAO", nullable = false, columnDefinition = "TIMESTAMP")

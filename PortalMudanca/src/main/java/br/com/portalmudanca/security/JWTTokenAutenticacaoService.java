@@ -5,20 +5,20 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/*
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+*/
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
 
 import br.com.portalmudanca.ApplicationContextLoad;
 import br.com.portalmudanca.model.Users;
 import br.com.portalmudanca.repository.UsersRepository;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
 
 
 /*Criar a autenticação e retonar também a autenticação JWT*/
@@ -34,11 +34,11 @@ public class JWTTokenAutenticacaoService {
 	private static final String TOKEN_PREFIX = "Bearer";
 	
 	private static final String HEADER_STRING = "Authorization";
-	
+
+
 	
 	/*Gera o token e da a responsta para o cliente o com JWT*/
 	public void addAuthentication( HttpServletResponse response, String username ) throws Exception{
-		
 		/* Motagem do Token */
 		String JWT = Jwts.builder().
 				    setSubject(username)
@@ -48,11 +48,12 @@ public class JWTTokenAutenticacaoService {
 		String token = TOKEN_PREFIX + " " + JWT;
 		
 		response.addHeader(HEADER_STRING, token);
+		liberacaoCors(response);
 		
 		response.getWriter().write("{\"Authorization\" \"" + token + "\"}");
 	}
-	
-	/*Retorna o usuário validado com token ou caso nao seja valido retona null*/
+/*	
+	//Retorna o usuário validado com token ou caso nao seja valido retona null
 	public Authentication getAuthetication(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		String token = request.getHeader(HEADER_STRING);
@@ -63,11 +64,11 @@ public class JWTTokenAutenticacaoService {
 			
 			String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
 			
-			/*Faz a validacao do token do usuário na requisicao e obtem o USER*/
+			//Faz a validacao do token do usuário na requisicao e obtem o USER
 			String user = Jwts.parser().
 					setSigningKey(SECRET)
 					.parseClaimsJws(tokenLimpo)
-					.getBody().getSubject(); /*ADMIN ou Alex*/
+					.getBody().getSubject(); //ADMIN ou Alex
 			
 			if (user != null) {
 				
@@ -98,7 +99,7 @@ public class JWTTokenAutenticacaoService {
 		
 		return null;
 	}
-		
+*/		
 	/*Fazendo liberação contra erro de COrs no navegador*/
 	@SuppressWarnings("unused")
 	private void liberacaoCors(HttpServletResponse response) {

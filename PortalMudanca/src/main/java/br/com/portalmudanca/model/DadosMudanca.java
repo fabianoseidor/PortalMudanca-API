@@ -16,11 +16,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
 @Entity
 @SequenceGenerator(name = "seq_dados_mudanca", sequenceName = "seq_dados_mudanca", allocationSize = 1, initialValue = 1)
 @Table(name = "DADOS_MUDANCA")
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class,  property = "id_dados_mudanca")
 public class DadosMudanca implements Serializable{
 
 
@@ -31,15 +36,19 @@ public class DadosMudanca implements Serializable{
 	@Column(name = "ID_DADOS_MUDANCA")
 	private Long id_dados_mudanca;
 	
+	@NotNull(message = "A Data de Início não foi preenchido!")
 	@Column(name = "DT_INICIO", columnDefinition = "DATE")
 	private LocalDate dt_inicio;
 
+	@NotNull(message = "A Hora de Início não foi preenchido!")
 	@Column(name = "HR_INICIO", columnDefinition = "TIME")
 	private LocalTime hr_inicio;
 	
+	@NotNull(message = "A Data de Final não foi preenchido!")
 	@Column(name = "DT_FINAL", columnDefinition = "DATE")
 	private LocalDate dt_final;
 	
+	@NotNull(message = "A Hora de Final não foi preenchido!")
 	@Column(name = "HR_FINAL", columnDefinition = "TIME")
 	private LocalTime hr_final;
 	

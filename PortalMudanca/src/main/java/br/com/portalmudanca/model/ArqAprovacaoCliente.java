@@ -20,7 +20,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ARQ_APROVACAO_CLIENTE")
 @SequenceGenerator(name = "seq_arq_aprov_cliente", sequenceName = "seq_arq_aprov_cliente", allocationSize = 1, initialValue = 1)
-
 public class ArqAprovacaoCliente implements Serializable{
 
 

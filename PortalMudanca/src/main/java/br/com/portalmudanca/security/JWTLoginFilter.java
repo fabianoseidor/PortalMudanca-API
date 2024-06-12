@@ -6,7 +6,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/*
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,35 +14,35 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
+*/
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.portalmudanca.model.Users;
 
-public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter{
-
-	/*Confgurando o gerenciado de autenticacao*/
+public class JWTLoginFilter/* extends AbstractAuthenticationProcessingFilter */{
+/*
+	//Confgurando o gerenciado de autenticacao
 	public JWTLoginFilter(String url, AuthenticationManager authenticationManager) {
 	
-		/*Ibriga a autenticat a url*/
+		//Ibriga a autenticat a url
 		super(new AntPathRequestMatcher(url));
 		
-		/*Gerenciador de autenticao*/
+		// Gerenciador de autenticao
 		setAuthenticationManager(authenticationManager);
 		
 	}
 
 	
-	/*Retorna o usuário ao processr a autenticacao*/
+	//Retorna o usuário ao processr a autenticacao
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 		
-		/*Obter o usuário*/
+		//Obter o usuário
 		Users user = new ObjectMapper().readValue(request.getInputStream(), Users.class);
 		
 		
-		/*Retorna o user com login e senha*/
+		// Retorna o user com login e senha
 		return getAuthenticationManager().
 				authenticate(new UsernamePasswordAuthenticationToken(user.getLogin(), user.getSenha()));
 	}
@@ -72,5 +72,5 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter{
 		
 		//super.unsuccessfulAuthentication(request, response, failed);
 	}
-
+*/
 }

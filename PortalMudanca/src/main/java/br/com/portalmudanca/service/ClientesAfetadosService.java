@@ -16,4 +16,12 @@ public class ClientesAfetadosService {
 		
 		return clientesAfetadosRepository.save(clientesAfetados);
 	}
+	
+	
+	public ClientesAfetados findByIdClientesAfetado( Long id ) {
+		
+		return clientesAfetadosRepository.findByIdClientesAfetados(id);
+	}
+
+
 }

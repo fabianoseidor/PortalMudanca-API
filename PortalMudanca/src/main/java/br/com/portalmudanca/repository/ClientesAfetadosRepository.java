@@ -16,4 +16,8 @@ public interface ClientesAfetadosRepository extends JpaRepository<ClientesAfetad
 	@Query(value = "SELECT id_clientes_af, id_cliente_portal, dt_criacao, nome_cliente FROM clientes_afetados", nativeQuery = true)
 	List<ClientesAfetados> buscarClientesAfetados();
 	
+	@Query(value = "SELECT a.* FROM clientes_afetados a where a.id_clientes_af = ?1", nativeQuery = true)
+	ClientesAfetados findByIdClientesAfetados(Long id_clientes_af);
+
+	
 }

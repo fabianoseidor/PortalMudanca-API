@@ -43,7 +43,7 @@ public class PlanoComunicacao implements Serializable{
 	private LocalDateTime dt_criacao;
 	
 	@ManyToOne(targetEntity = Mudanca.class)
-	@JoinColumn(name = "id_mudanca", nullable = false, referencedColumnName = "id_mudanca", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_PLANO_COMUNICACAO_MUDANCA"))
+	@JoinColumn(name = "id_mudanca", nullable = true, referencedColumnName = "id_mudanca", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_PLANO_COMUNICACAO_MUDANCA"))
 	private Mudanca mudanca;
 
     @PrePersist

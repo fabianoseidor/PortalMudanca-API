@@ -13,18 +13,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
+/*
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+*/
 import br.com.portalmudanca.enums.UserRole;
 
 
 @SequenceGenerator(name = "seq_users", sequenceName = "seq_users", allocationSize = 1, initialValue = 1)
 @Entity
 @Table(name = "USERS")
-public class Users implements UserDetails{
+public class Users /*implements UserDetails */{
 
 	private static final long serialVersionUID = 1878887316826737875L;
 
@@ -44,7 +44,7 @@ public class Users implements UserDetails{
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
-
+/*
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
@@ -81,7 +81,7 @@ public class Users implements UserDetails{
 	public boolean isEnabled() {
 		return true;
 	}
-	
+*/	
 	public Long getId() {
 		return id;
 	}

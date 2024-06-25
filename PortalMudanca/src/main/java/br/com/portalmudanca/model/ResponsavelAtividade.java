@@ -26,6 +26,9 @@ public class ResponsavelAtividade implements Serializable{
 	@Column(name = "RESPONSAVEL_ATIVIDADE", nullable = false, length = 200)
 	private String responsavel_atividade;
 
+	@Column(name = "EMAIL_RESPONSAVEL_ATIVIDADE", nullable = false, length = 200)
+	private String email_responsavel_atividade;
+	
 	public Long getId_responsavel_atividade() {
 		return id_responsavel_atividade;
 	}
@@ -45,6 +48,14 @@ public class ResponsavelAtividade implements Serializable{
 	@Override
 	public int hashCode() {
 		return Objects.hash(id_responsavel_atividade);
+	}
+
+	public String getEmail_responsavel_atividade() {
+		return email_responsavel_atividade;
+	}
+
+	public void setEmail_responsavel_atividade(String email_responsavel_atividade) {
+		this.email_responsavel_atividade = email_responsavel_atividade;
 	}
 
 	@Override

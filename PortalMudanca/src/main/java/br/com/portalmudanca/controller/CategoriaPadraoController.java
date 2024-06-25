@@ -1,8 +1,11 @@
 package br.com.portalmudanca.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,5 +37,13 @@ public class CategoriaPadraoController {
 		
 		return new ResponseEntity<CategoriaPadrao>(categoriaPadrao, HttpStatus.OK);
 	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/listaCategoriaPadrao")
+	public ResponseEntity<List<CategoriaPadrao>> listaCategoriaPadrao(  ) throws ExceptionCustomizada{
+		List<CategoriaPadrao> categoriaPadraos = categoriaPadraoRepository.listaCategoriaPadroes();
+		return new ResponseEntity<List<CategoriaPadrao>>(categoriaPadraos, HttpStatus.OK);
+	}
+
 	
 }

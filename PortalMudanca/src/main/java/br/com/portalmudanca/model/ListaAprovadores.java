@@ -40,7 +40,12 @@ public class ListaAprovadores implements Serializable{
 
 	@Column(name = "STATUS_APROVACAO", nullable = false)
 	private Boolean statusAprovacao;
+	
+	@Column(name = "DT_APROVACAO",columnDefinition = "TIMESTAMP")
+	private LocalDateTime dt_aprovacao;
 
+	@Column(name = "DT_REPROVACAO",columnDefinition = "TIMESTAMP")
+	private LocalDateTime dt_reprovacao;
 	
 	@Column(name = "DT_CRIACAO", nullable = false, columnDefinition = "TIMESTAMP")
 	private LocalDateTime dt_criacao;
@@ -50,10 +55,27 @@ public class ListaAprovadores implements Serializable{
         final LocalDateTime atual =  LocalDateTime.now();
         dt_criacao   = atual;
     }
-
+ /*   
+	@PreUpdate
+    public void preUpdate() {
+		dt_aprovacao =  LocalDateTime.now();
+    }
+*/
+    
+    
 	public Long getId_lista_aprovadores() {
 		return id_lista_aprovadores;
 	}
+
+	public LocalDateTime getDt_aprovacao() {
+		return dt_aprovacao;
+	}
+
+
+	public void setDt_aprovacao(LocalDateTime dt_aprovacao) {
+		this.dt_aprovacao = dt_aprovacao;
+	}
+
 
 	public void setId_lista_aprovadores(Long id_lista_aprovadores) {
 		this.id_lista_aprovadores = id_lista_aprovadores;

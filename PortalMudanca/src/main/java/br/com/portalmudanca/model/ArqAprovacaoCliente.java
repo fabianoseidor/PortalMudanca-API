@@ -33,12 +33,14 @@ public class ArqAprovacaoCliente implements Serializable{
 	@Column(name = "NOME_ARQ", length = 200, nullable = false)
 	private String nome_arq;
 	
+	@Column(name = "TITULO_ARQUIVO")
+	private String titulo_arquivo;
+	
 	@Column(name = "ARQUIVO",nullable = false)
 	private String arquivo;
 	
-	@ManyToOne(targetEntity = TipoArq.class)
-	@JoinColumn(name = "id_tipo_arq", nullable = false, referencedColumnName = "id_tipo_arq", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_ARQ_APROVACAO_CLIENTE_TIPO_ARQ"))
-	private TipoArq tipoArq;
+	@Column(name = "TIPO_ARQ",nullable = false)
+	private String tipo_Arq;
 
 	@ManyToOne(targetEntity = Mudanca.class)
 	@JoinColumn(name = "id_mudanca", nullable = true, referencedColumnName = "id_mudanca", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_ARQ_APROVACAO_CLIENTE_MUDANCA"))
@@ -77,14 +79,6 @@ public class ArqAprovacaoCliente implements Serializable{
 		this.arquivo = arquivo;
 	}
 
-	public TipoArq getTipoArq() {
-		return tipoArq;
-	}
-
-	public void setTipoArq(TipoArq tipoArq) {
-		this.tipoArq = tipoArq;
-	}
-
 	public Mudanca getMudanca() {
 		return mudanca;
 	}
@@ -99,6 +93,22 @@ public class ArqAprovacaoCliente implements Serializable{
 
 	public void setDt_criacao(LocalDateTime dt_criacao) {
 		this.dt_criacao = dt_criacao;
+	}
+
+	public String getTipo_Arq() {
+		return tipo_Arq;
+	}
+
+	public void setTipo_Arq(String tipo_Arq) {
+		this.tipo_Arq = tipo_Arq;
+	}
+
+	public String getTitulo_arquivo() {
+		return titulo_arquivo;
+	}
+
+	public void setTitulo_arquivo(String titulo_arquivo) {
+		this.titulo_arquivo = titulo_arquivo;
 	}
 
 	@Override
@@ -120,8 +130,11 @@ public class ArqAprovacaoCliente implements Serializable{
 
 	@Override
 	public String toString() {
-		return "ArqAprovacaoCliente [id_arq_apro_cli=" + id_arq_apro_cli + ", nome_arq=" + nome_arq + ", arquivo="
-				+ arquivo + ", tipoArq=" + tipoArq + ", mudanca=" + mudanca + ", dt_criacao=" + dt_criacao + "]";
+		return "ArqAprovacaoCliente [id_arq_apro_cli=" + id_arq_apro_cli + ", nome_arq=" + nome_arq
+				+ ", titulo_arquivo=" + titulo_arquivo + ", arquivo=" + arquivo + ", tipo_Arq=" + tipo_Arq
+				+ ", mudanca=" + mudanca + ", dt_criacao=" + dt_criacao + "]";
 	}
+
+
     
 }

@@ -1,6 +1,9 @@
 package br.com.portalmudanca;
 
+import java.io.UnsupportedEncodingException;
 import java.util.concurrent.Executor;
+
+import javax.mail.MessagingException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,20 +17,20 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+// import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableAsync
 @EnableScheduling
 @EntityScan(basePackages = "br.com.portalmudanca.model")
-@ComponentScan(basePackages = {"br.com.*"})
+@ComponentScan(basePackages = {"br.*"})
 @EnableJpaRepositories(basePackages = {"br.com.portalmudanca.repository"})
 @EnableTransactionManagement
 //@EnableWebMvc
 public class PortalMudancaApplication implements AsyncConfigurer, WebMvcConfigurer{
-	
-	public static void main(String[] args) {
+		
+	public static void main(String[] args) throws ExceptionCustomizada, UnsupportedEncodingException, MessagingException{
 		
 //		System.out.println( new BCryptPasswordEncoder().encode("123") );
 		SpringApplication.run(PortalMudancaApplication.class, args);

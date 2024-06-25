@@ -21,5 +21,9 @@ public interface CategoriaPadraoRepository extends JpaRepository<CategoriaPadrao
 	
 	@Query(value = "select a.* from categoria_padrao a where upper(trim(a.categoria_padrao)) = ?1", nativeQuery = true)
 	CategoriaPadrao findByCategoriaPadrao(String categoria_padrao);
+
 	
+	@Query(value = "select a.* from categoria_padrao a", nativeQuery = true)
+	List<CategoriaPadrao> listaCategoriaPadroes();
+
 }

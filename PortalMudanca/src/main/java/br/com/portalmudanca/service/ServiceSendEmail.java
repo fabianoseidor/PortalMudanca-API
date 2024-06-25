@@ -1,6 +1,7 @@
 package br.com.portalmudanca.service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -13,12 +14,18 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ServiceSendEmail {
 
+	 
+	 
 	final String userName     = "emailappsmtp.39c07be65b2db29e"; //requires valid gmail id
 	final String password     = "widv2sWEwYC6";                  // correct password for gmail id
 	final String host         = "smtp.zeptomail.com"; 
@@ -26,6 +33,28 @@ public class ServiceSendEmail {
 	final String port_ssl     = "465"; 
 	final String email_from   = "multicloud@seidorcloud.com.br"; 
 	final String titulo_email = "Portal GMUD"; 
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
+	public void enviarEmailHtmlTemplete(String assunto, String menssagem, String emailDestino) throws MessagingException, UnsupportedEncodingException {
+		
+		// SimpleMailMessage message = new SimpleMailMessage();
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true);
+		helper.setFrom(email_from, titulo_email);
+		helper.setTo(emailDestino);
+		
+		helper.setSubject(assunto);
+		helper.setText(menssagem, true);
+        
+		// Coloca o Log no corpo do E-mail
+		ClassPathResource resource = new ClassPathResource("/static/img/imagemFundo.jpg");
+		helper.addInline("logoImage", resource);
+
+		mailSender.send(message);
+	}
+	
 	
 	@Async
 	public void enviarEmailHtml(String assunto, String menssagem, String emailDestino) throws UnsupportedEncodingException, MessagingException {
@@ -37,7 +66,7 @@ public class ServiceSendEmail {
 		properties.put("mail.smtp.port"           , port_tls);
         properties.put("mail.user"                , userName);
         properties.put("mail.password"            , password);
-
+        
 		Session session = Session.getInstance(properties, new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -49,8 +78,10 @@ public class ServiceSendEmail {
 		
 		Address[] toUser = InternetAddress.parse(emailDestino, false);
 		try {	
-/*			
+			
 			MimeMessage message = new MimeMessage(session);
+		
+			
 			message.setFrom      (new InternetAddress(email_from, titulo_email, "UTF-8"));
 			message.setRecipients(Message.RecipientType.TO, toUser);
 			message.setSubject   (assunto  , "UTF-8");
@@ -58,14 +89,14 @@ public class ServiceSendEmail {
 			message.setSentDate  (new Date());
 			
 			Transport.send(message);
-*/			
 			
+/*			
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(email_from, titulo_email, "UTF-8"));
 			message.setRecipients(Message.RecipientType.TO, toUser);
 			message.setSubject(assunto);
 			message.setContent(menssagem, "text/html; charset=utf-8");
-			
+*/			
 			Transport.send(message);			
 			
 		}
@@ -76,13 +107,12 @@ public class ServiceSendEmail {
 		
 	}
 	
-	public String getMensagemAbertura( String textoSadacao, String textoCorpo ) {
-		
-		String basicPath = System.getProperty("user.dir");
-		String PathImage = basicPath + "/src/main/resources/image/imagemFundo.jpg";
-		
+
+	
+	public String getMensagemAbertura( String textoTitulo, String textoSaldacao, String textoCorpo ) {
+	
 		String saida = null;
-		String texto_01 = "<!DOCTYPE html>"
+		String texto_01_HTML = "<!DOCTYPE html>"
 				+ "<html lang=\"en\">"
 				+ "<head>"
 				+ "    <meta charset=\"UTF-8\">"
@@ -97,8 +127,7 @@ public class ServiceSendEmail {
 				+ "                <table align=\"center\" border=\"1\" witdh=\"600px\" cellpaddin=\"0\" cellspacing=\"0\" style=\"padding: 10;\">"
 				+ "                   <tr>"
 				+ "                    <td bgcolor=\"#001058\" align=\"center\" style=\"padding: 0px 0 0px 0\">"
-//				+ "                        <img src=\"C:/Deselvolvimento/Modelo Email/EmailCriacaoGmud/imagemFundo.jpg\" />"
-				+ "                        <img src=" + PathImage + "/>"
+				+ "                        <img src='cid:logoImage'/>"
 				+ "                    </td>"
 				+ "                   </tr>"
 				+ "                   <!-- Corpo  -->"
@@ -107,7 +136,9 @@ public class ServiceSendEmail {
 				+ "                        <table align=\"center\" border=\"0\" witdh=\"600px\" cellpaddin=\"0\" cellspacing=\"0\" style=\"padding: 10; color: #001058;\">"
 				+ "                             <tr >"
 				+ "                                <td>"
-				+ "                                    <h1>Abertura de GMUD</h1>"
+				+ "                                    <h1>";
+				
+		String texto_02_HTML =                       " </h1>"
 				+ "                                </td>"
 				+ "                             </tr>"
 				+ "                        </table>"
@@ -115,16 +146,18 @@ public class ServiceSendEmail {
 				+ "                            <tr align=\"left\">"
 				+ "                                <td>"
 				+ "                                    <span>"
-				+ "                                        <strong>";
+				+ "                                        <strong>Prezado,</strong> "
+				+ "                                    </span>"
+				+ "                                    <br><br><br>"
+				+ "                                   <span>";
 		
-		String texto_02 = "</strong> "
-				+ "                                    </span><br><br><br> "
-				+ "                                    <span> ";
-		
-		String texto_03 = "</span><br><br><br> "
-				+ " "
-				+ "                                    <span> "
-				+ "                                        Agradecemos pela sua atenção e colaboração neste assunto. "
+		String texto_03_HTML =  "                   </span>  <br><br><br>"
+				+ "                                 <table>";
+				
+		String texto_04_HTML = "                    </table>"
+				+ "                                   <br><br><br>"
+				+ "                                   <span> "
+				+ "                                        Em caso de dúvida entre em contato as equipes Seidor. "
 				+ "                                    </span><br><br>  "
 				+ "                                    <span> "
 				+ "                                        Atenciosamente.<br> "
@@ -145,9 +178,29 @@ public class ServiceSendEmail {
 				+ "</html>";
 		
 		
-		saida = texto_01 + textoSadacao + texto_02 + textoCorpo + texto_03;
+		saida = texto_01_HTML + textoTitulo + texto_02_HTML + textoSaldacao + texto_03_HTML + textoCorpo + texto_04_HTML;
 		
 		return saida;
+	}
+	
+	public String getTrTd(String[][] texto) {
+		String s = "";		
+		for(int i=0; i<texto.length; i++){
+			s += "<tr>";
+		   for(int j=0; j<texto[i].length; j++){
+			   if( j == 0 ) {
+				
+				s+= "<td><strong>" + texto[i][j] + "</strong></td>";
+			   } else {
+				   s+= "<td>: " + texto[i][j] + "</td>";  
+			   }
+		 //     System.out.print("J: " + matriz[i][j] + "\n");
+		   }
+		   s += "</tr>";
+//		   System.out.println("I: " + matriz[i][0]);
+		}
+		
+		return s;
 	}
 	
 	

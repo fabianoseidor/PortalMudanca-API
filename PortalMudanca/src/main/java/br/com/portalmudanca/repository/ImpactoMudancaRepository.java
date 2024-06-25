@@ -23,4 +23,8 @@ public interface ImpactoMudancaRepository extends JpaRepository<ImpactoMudanca, 
 	@Query(value = "select a.* from impacto_mudanca a where upper(trim(a.impacto_mudanca)) = ?1", nativeQuery = true)
 	ImpactoMudanca findByImpactoMudanca(String impacto_mudanca);
 	
+	@Query(value = "select a.* from impacto_mudanca a", nativeQuery = true)
+	List<ImpactoMudanca> findByImpactoMudancas( );
+
+	
 }

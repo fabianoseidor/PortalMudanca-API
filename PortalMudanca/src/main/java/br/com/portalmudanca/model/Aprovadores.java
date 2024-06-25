@@ -25,6 +25,10 @@ public class Aprovadores implements Serializable{
 	
 	@Column(name = "APROVADOR", length = 200 ,nullable = false)
 	private String aprovador;
+
+	@Column(name = "EMAIL", length = 200 ,nullable = false)
+	private String email;
+
 	
 	@Column(name = "OBS", length = 5000)
 	private String obs;
@@ -66,6 +70,16 @@ public class Aprovadores implements Serializable{
 
 	public void setObs(String obs) {
 		this.obs = obs;
+	}
+
+	
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override

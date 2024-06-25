@@ -21,5 +21,8 @@ public interface CriticidadeRepository extends JpaRepository<Criticidade, Long>{
 	
 	@Query(value = "select a.* from criticidade a where upper(trim(a.criticidade)) = ?1", nativeQuery = true)
 	Criticidade findByCriticidade(String criticidade);
-		
+
+	@Query(value = "select a.* from criticidade a", nativeQuery = true)
+	List<Criticidade> findByCriticidades();
+
 }

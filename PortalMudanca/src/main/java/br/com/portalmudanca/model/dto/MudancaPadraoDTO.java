@@ -9,7 +9,6 @@ import br.com.portalmudanca.model.ArquivosMudanca;
 import br.com.portalmudanca.model.CategoriaPadrao;
 import br.com.portalmudanca.model.Criticidade;
 import br.com.portalmudanca.model.DadosMudanca;
-import br.com.portalmudanca.model.ExecutorCategoriaPadrao;
 import br.com.portalmudanca.model.ImpactoMudanca;
 import br.com.portalmudanca.model.Mudanca;
 import br.com.portalmudanca.model.TipoMudanca;
@@ -24,7 +23,6 @@ public class MudancaPadraoDTO {
 	private Criticidade criticidade;
 	private CategoriaPadrao categoriaPadrao;
 
-	private List<ExecutorCategoriaPadrao> executorCategoriaPadraos = new ArrayList<ExecutorCategoriaPadrao>();
 	@JsonBackReference
 	private DadosMudanca dadosMudanca;
 	private List<ArquivosMudanca> arquivosMudancas = new ArrayList<ArquivosMudanca>();
@@ -58,12 +56,6 @@ public class MudancaPadraoDTO {
 	}
 	public void setCategoriaPadrao(CategoriaPadrao categoriaPadrao) {
 		this.categoriaPadrao = categoriaPadrao;
-	}
-	public List<ExecutorCategoriaPadrao> getExecutorCategoriaPadraos() {
-		return executorCategoriaPadraos;
-	}
-	public void setExecutorCategoriaPadraos(List<ExecutorCategoriaPadrao> executorCategoriaPadraos) {
-		this.executorCategoriaPadraos = executorCategoriaPadraos;
 	}
 	
 	public DadosMudanca getDadosMudanca() {

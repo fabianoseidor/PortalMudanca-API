@@ -1,5 +1,7 @@
 package br.com.portalmudanca.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +25,10 @@ public class ClientesAfetadosService {
 		return clientesAfetadosRepository.findByIdClientesAfetados(id);
 	}
 
+	public List<ClientesAfetados> listaClientesAfetado( ) {
+		
+		return clientesAfetadosRepository.buscarClientesAfetados();
+	}
+	
 
 }

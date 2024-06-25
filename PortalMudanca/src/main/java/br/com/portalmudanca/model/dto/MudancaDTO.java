@@ -1,10 +1,12 @@
 package br.com.portalmudanca.model.dto;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-import br.com.portalmudanca.enums.StatusRdm;
+import br.com.portalmudanca.model.ListaAprovadores;
+import br.com.portalmudanca.model.MudancaClientesAfetados;
 
 public class MudancaDTO implements Serializable{
 
@@ -12,17 +14,88 @@ public class MudancaDTO implements Serializable{
 	
 	private Long id_mudanca;	
 	private String titulo_mudanca;
-	private LocalDateTime dt_criacao;
-	private LocalDateTime dt_alteracao;
+	private String dt_criacao;
+	private String dt_alteracao;
 	private String login_user;
-	private StatusRdm statusMudanca;
-/*
-	private TipoMudanca tipoMudanca;
-	private Criticidade criticidade;
-	private ImpactoMudanca impactoMudanca;
-	private CategoriaPadrao categoriaPadrao;
-	private DadosMudanca dadosMudanca = new DadosMudanca();
-*/
+	private String statusMudanca;
+	private String descricao;
+	private String dt_Inicio_Mudanca;
+	private String hr_Inicio_Mudanca;
+	private String dt_Conclusao_Mudanca;
+	private String hr_Conclusao_Mudanca;
+	private String solicitant_Mudanca;
+	private String impacto;
+	private String urgencia;
+	private String tipo_Mudanca;
+	private List<ListaAprovadores> listaAprovadores = new ArrayList<ListaAprovadores>();
+	private List<MudancaClientesAfetados> mudancaClientesAfetados = new ArrayList<MudancaClientesAfetados>();
+
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	public String getDt_Inicio_Mudanca() {
+		return dt_Inicio_Mudanca;
+	}
+	public void setDt_Inicio_Mudanca(String dt_Inicio_Mudanca) {
+		this.dt_Inicio_Mudanca = dt_Inicio_Mudanca;
+	}
+	public String getHr_Inicio_Mudanca() {
+		return hr_Inicio_Mudanca;
+	}
+	public void setHr_Inicio_Mudanca(String hr_Inicio_Mudanca) {
+		this.hr_Inicio_Mudanca = hr_Inicio_Mudanca;
+	}
+	public String getDt_Conclusao_Mudanca() {
+		return dt_Conclusao_Mudanca;
+	}
+	public void setDt_Conclusao_Mudanca(String dt_Conclusao_Mudanca) {
+		this.dt_Conclusao_Mudanca = dt_Conclusao_Mudanca;
+	}
+	public String getHr_Conclusao_Mudanca() {
+		return hr_Conclusao_Mudanca;
+	}
+	public void setHr_Conclusao_Mudanca(String hr_Conclusao_Mudanca) {
+		this.hr_Conclusao_Mudanca = hr_Conclusao_Mudanca;
+	}
+	public String getSolicitant_Mudanca() {
+		return solicitant_Mudanca;
+	}
+	public void setSolicitant_Mudanca(String solicitant_Mudanca) {
+		this.solicitant_Mudanca = solicitant_Mudanca;
+	}
+	public String getImpacto() {
+		return impacto;
+	}
+	public void setImpacto(String impacto) {
+		this.impacto = impacto;
+	}
+	public String getUrgencia() {
+		return urgencia;
+	}
+	public void setUrgencia(String urgencia) {
+		this.urgencia = urgencia;
+	}
+	public String getTipo_Mudanca() {
+		return tipo_Mudanca;
+	}
+	public void setTipo_Mudanca(String tipo_Mudanca) {
+		this.tipo_Mudanca = tipo_Mudanca;
+	}
+	public List<ListaAprovadores> getListaAprovadores() {
+		return listaAprovadores;
+	}
+	public void setListaAprovadores(List<ListaAprovadores> listaAprovadores) {
+		this.listaAprovadores = listaAprovadores;
+	}
+	public List<MudancaClientesAfetados> getMudancaClientesAfetados() {
+		return mudancaClientesAfetados;
+	}
+	public void setMudancaClientesAfetados(List<MudancaClientesAfetados> mudancaClientesAfetados) {
+		this.mudancaClientesAfetados = mudancaClientesAfetados;
+	}
 	public Long getId_mudanca() {
 		return id_mudanca;
 	}
@@ -35,16 +108,16 @@ public class MudancaDTO implements Serializable{
 	public void setTitulo_mudanca(String titulo_mudanca) {
 		this.titulo_mudanca = titulo_mudanca;
 	}
-	public LocalDateTime getDt_criacao() {
+	public String getDt_criacao() {
 		return dt_criacao;
 	}
-	public void setDt_criacao(LocalDateTime dt_criacao) {
+	public void setDt_criacao(String dt_criacao) {
 		this.dt_criacao = dt_criacao;
 	}
-	public LocalDateTime getDt_alteracao() {
+	public String getDt_alteracao() {
 		return dt_alteracao;
 	}
-	public void setDt_alteracao(LocalDateTime dt_alteracao) {
+	public void setDt_alteracao(String dt_alteracao) {
 		this.dt_alteracao = dt_alteracao;
 	}
 	public String getLogin_user() {
@@ -53,10 +126,10 @@ public class MudancaDTO implements Serializable{
 	public void setLogin_user(String login_user) {
 		this.login_user = login_user;
 	}
-	public StatusRdm getStatusMudanca() {
+	public String getStatusMudanca() {
 		return statusMudanca;
 	}
-	public void setStatusMudanca(StatusRdm statusMudanca) {
+	public void setStatusMudanca(String statusMudanca) {
 		this.statusMudanca = statusMudanca;
 	}
 

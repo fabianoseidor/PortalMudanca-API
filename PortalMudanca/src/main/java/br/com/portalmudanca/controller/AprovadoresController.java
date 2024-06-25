@@ -22,7 +22,7 @@ public class AprovadoresController  {
 	
 	@Autowired
 	AprovadoresRepository aprovadoresRepository;
-
+	
 	@ResponseBody
 	@PostMapping(value = "**/salvarAprovadores")
 	public ResponseEntity<Aprovadores> salvarAprovadores(@RequestBody Aprovadores aprovadores) throws ExceptionCustomizada{
@@ -80,7 +80,13 @@ public class AprovadoresController  {
 		return new ResponseEntity<List<Aprovadores>>(acesso,HttpStatus.OK);
 	}
 	
-	
-	
+	@ResponseBody
+	@GetMapping(value = "**/listaAprovador")
+	public ResponseEntity<List<Aprovadores>> listaAprovador() { 
+		
+		List<Aprovadores> acesso = aprovadoresRepository.buscarAprovador();
+		
+		return new ResponseEntity<List<Aprovadores>>(acesso,HttpStatus.OK);
+	}
 	
 }

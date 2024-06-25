@@ -84,7 +84,7 @@ public class TesteInserts {
 		
 		ImpactoMudanca impactoMudanca = new ImpactoMudanca();
 		
-		impactoMudanca.setImpacto_mudanca("Medio".toUpperCase());
+		impactoMudanca.setImpacto_mudanca("Baixa".toUpperCase());
 		impactoMudanca.setObs("Teste gravacao".toUpperCase());
 		
 		impactoMudancaController.SalvarImpactoMudanca(impactoMudanca);
@@ -117,7 +117,7 @@ public class TesteInserts {
 		
 		ResponsavelAtividade responsavelAtividade = new ResponsavelAtividade();
 		
-		responsavelAtividade.setResponsavel_atividade("Rodrigo".toUpperCase());
+		responsavelAtividade.setResponsavel_atividade("Erich".toUpperCase());
 		
 		responsavelAtividadeController.SalvarResponsavelAtividade(responsavelAtividade);
 	}

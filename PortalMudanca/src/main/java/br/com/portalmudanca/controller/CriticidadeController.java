@@ -1,8 +1,11 @@
 package br.com.portalmudanca.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,6 +38,13 @@ public class CriticidadeController {
 		return new ResponseEntity<Criticidade>(criticidade, HttpStatus.OK);
 	}
 
+	@ResponseBody
+	@GetMapping(value = "**/listaCriticidade")
+	public ResponseEntity<List<Criticidade>> listaCriticidade(  ) throws ExceptionCustomizada{
+		 List<Criticidade> criticidade = criticidadeRepository.findByCriticidades();
+		
+		return new ResponseEntity<List<Criticidade>>(criticidade, HttpStatus.OK);
+	}
 	
 	
 }

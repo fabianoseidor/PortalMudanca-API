@@ -17,7 +17,7 @@ public class StatusAtividadeController {
 
 	@Autowired
 	StatusAtividadeRepository statusAtividadeRepository;
-
+	
 	@ResponseBody
 	@PostMapping(value = "**/salvarStatusAtividade")
 	public ResponseEntity<StatusAtividade> salvarStatusAtividade(@RequestBody StatusAtividade statusAtividade ) throws ExceptionCustomizada{

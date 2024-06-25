@@ -1,8 +1,11 @@
 package br.com.portalmudanca.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +20,7 @@ public class ImpactoMudancaController {
 	
 	@Autowired
 	private ImpactoMudancaRepository impactoMudancaRepository;
+
 	
 	@ResponseBody
 	@PostMapping(value = "**/SalvarImpactoMudanca")
@@ -33,6 +37,15 @@ public class ImpactoMudancaController {
 		impactoMudanca = impactoMudancaRepository.save(impactoMudanca);
 		
 		return new ResponseEntity<ImpactoMudanca>(impactoMudanca, HttpStatus.OK);
+	}
+
+	
+	@ResponseBody
+	@GetMapping(value = "**/listaImpactoMudanca")
+	public ResponseEntity<List<ImpactoMudanca>> listaImpactoMudanca(  ) throws ExceptionCustomizada{
+		 List<ImpactoMudanca> impactoMudanca = impactoMudancaRepository.findByImpactoMudancas();
+		
+		return new ResponseEntity<List<ImpactoMudanca>>(impactoMudanca, HttpStatus.OK);
 	}
 
 }

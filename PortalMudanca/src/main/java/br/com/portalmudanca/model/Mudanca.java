@@ -27,7 +27,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+//import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -59,6 +59,9 @@ public class Mudanca implements Serializable{
 	@Column(name = "LOGIN_USER", length = 100, nullable = false)
 	private String login_user;
 	
+	@Column(name = "DT_FECHAMENTO", columnDefinition = "TIMESTAMP")
+	private LocalDateTime dt_fechamento;
+
 	@Enumerated(EnumType.STRING)
 	private StatusRdm statusMudanca;
 	
@@ -85,7 +88,7 @@ public class Mudanca implements Serializable{
 	private List<PlanoComunicacao> planoComunicacoes = new ArrayList<PlanoComunicacao>();
 
 	@OneToOne(mappedBy = "mudanca", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JsonBackReference
+//	@JsonBackReference
 	private DadosMudanca dadosMudanca = new DadosMudanca();
 
 	@NotNull(message = "A(s) Atividade(s) da mudança deve(m) ser informado!")
@@ -111,9 +114,6 @@ public class Mudanca implements Serializable{
 	@OneToOne(mappedBy = "mudanca", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private AcaoPosAtividade acaoPosAtividade = new AcaoPosAtividade();
 
-	@OneToMany(mappedBy = "categoria_padrao", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<ExecutorCategoriaPadrao> executorCategoriaPadrao = new ArrayList<ExecutorCategoriaPadrao>();
-	
 	@PreUpdate
     public void preUpdate() {
 		dt_alteracao =  LocalDateTime.now();
@@ -127,13 +127,12 @@ public class Mudanca implements Serializable{
     }
 
     
-    
-	public List<ExecutorCategoriaPadrao> getExecutorCategoriaPadrao() {
-		return executorCategoriaPadrao;
+	public LocalDateTime getDt_fechamento() {
+		return dt_fechamento;
 	}
 
-	public void setExecutorCategoriaPadrao(List<ExecutorCategoriaPadrao> executorCategoriaPadrao) {
-		this.executorCategoriaPadrao = executorCategoriaPadrao;
+	public void setDt_fechamento(LocalDateTime dt_fechamento) {
+		this.dt_fechamento = dt_fechamento;
 	}
 
 	public AcaoPosAtividade getAcaoPosAtividade() {

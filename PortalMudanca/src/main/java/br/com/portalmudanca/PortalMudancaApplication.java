@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 // import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -27,7 +28,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = {"br.*"})
 @EnableJpaRepositories(basePackages = {"br.com.portalmudanca.repository"})
 @EnableTransactionManagement
-//@EnableWebMvc
+@EnableWebMvc
 public class PortalMudancaApplication implements AsyncConfigurer, WebMvcConfigurer{
 		
 	public static void main(String[] args) throws ExceptionCustomizada, UnsupportedEncodingException, MessagingException{
@@ -35,6 +36,7 @@ public class PortalMudancaApplication implements AsyncConfigurer, WebMvcConfigur
 //		System.out.println( new BCryptPasswordEncoder().encode("123") );
 		SpringApplication.run(PortalMudancaApplication.class, args);
 	}
+	
 	@Override
 	@Bean
 	public Executor getAsyncExecutor() {
@@ -59,7 +61,7 @@ public class PortalMudancaApplication implements AsyncConfigurer, WebMvcConfigur
 		.allowedMethods("*")
 		.exposedHeaders("*");
 		
-		//WebMvcConfigurer.super.addCorsMappings(registry);
+		WebMvcConfigurer.super.addCorsMappings(registry);
 	}
 
 }

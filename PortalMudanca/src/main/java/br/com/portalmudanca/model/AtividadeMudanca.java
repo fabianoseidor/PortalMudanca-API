@@ -31,7 +31,7 @@ public class AtividadeMudanca implements Serializable{
 	@Column(name = "ID_ATIVIDADE_MUDANCA")
 	private Long id_atividade_mudanca;
 
-	@Column(name = "TITULO_ATIVIDADE_MUDANCA", length = 100, nullable = false)
+	@Column(name = "TITULO_ATIVIDADE_MUDANCA", length = 500, nullable = false)
 	private String titulo_atividade_mudanca;
 	
 	@Column(name = "ATIVIDADE_MUDANCA", length = 5000, nullable = false)
@@ -42,6 +42,12 @@ public class AtividadeMudanca implements Serializable{
 	
 	@Column(name = "DURACAO", columnDefinition = "TIME", nullable = false)
 	private LocalTime duracao;
+	
+	@Column(name = "ENVIAR_EMAIL")
+	private Boolean enviar_email;
+	
+	@Column(name = "TAREFA_AUTOMATICA")
+	private Boolean tarefa_automatica;	
 
 	@Column(name = "DT_INICIO_TAREFA", columnDefinition = "TIMESTAMP")
 	private LocalDateTime dt_inicio_tarefa;
@@ -52,7 +58,15 @@ public class AtividadeMudanca implements Serializable{
 	@Column(name = "REPORT_FINAL", length = 5000)
 	private String report_final;
 	
+	@Column(name = "PRIORIDADE")
+	private Integer prioridade;	
 	
+	@Column(name = "INDISPONIBILIDADE")
+	private Boolean indisponibilidade;	
+
+	@Column(name = "TAREFA_IGNORADA", length = 100)
+	private String tarefa_ignorada;
+
 	@ManyToOne( targetEntity = ResponsavelAtividade.class )
 	@JoinColumn(name = "id_responsavel_atividade", nullable = false, referencedColumnName = "id_responsavel_atividade", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_ATIV_MUD_RESP_ATIV"))
 	private ResponsavelAtividade responsavelAtividade;
@@ -64,7 +78,39 @@ public class AtividadeMudanca implements Serializable{
 	@ManyToOne(targetEntity = StatusAtividade.class)
 	@JoinColumn(name = "id_status_atividade", referencedColumnName = "id_status_atividade", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_STATUS_ATIVIDADE"))
 	private StatusAtividade statusAtividade;
-	
+		
+	public Boolean getIndisponibilidade() {
+		return indisponibilidade;
+	}
+
+	public void setIndisponibilidade(Boolean indisponibilidade) {
+		this.indisponibilidade = indisponibilidade;
+	}
+
+	public Integer getPrioridade() {
+		return prioridade;
+	}
+
+	public void setPrioridade(Integer prioridade) {
+		this.prioridade = prioridade;
+	}
+
+	public Boolean getTarefa_automatica() {
+		return tarefa_automatica;
+	}
+
+	public void setTarefa_automatica(Boolean tarefa_automatica) {
+		this.tarefa_automatica = tarefa_automatica;
+	}
+
+	public Boolean getEnviar_email() {
+		return enviar_email;
+	}
+
+	public void setEnviar_email(Boolean enviar_email) {
+		this.enviar_email = enviar_email;
+	}
+
 	public LocalDateTime getDt_inicio_tarefa() {
 		return dt_inicio_tarefa;
 	}

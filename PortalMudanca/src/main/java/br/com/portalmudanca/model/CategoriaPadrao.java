@@ -2,21 +2,29 @@ package br.com.portalmudanca.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "CATEGORIA_PADRAO")
 @SequenceGenerator(name = "seq_categoria_padrao", sequenceName = "seq_categoria_padrao", allocationSize = 1, initialValue = 1)
-
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class,  property = "id_categoria_padrao")
 public class CategoriaPadrao implements Serializable{
 
 	private static final long serialVersionUID = 5554328306966819593L;
@@ -31,9 +39,21 @@ public class CategoriaPadrao implements Serializable{
 	
 	@Column(name = "DT_CRIACAO", nullable = false, columnDefinition = "TIMESTAMP")
 	private LocalDateTime dt_criacao;
+
+	@Column( name = "ATIVAR_CONTRATO")
+	private Boolean ativar_contrato = Boolean.FALSE;
+	
+	@Column( name = "DESLIGAR_CONTRATO")
+	private Boolean desligar_contrato = Boolean.FALSE;
+
+	@Column(name = "LOGIN_USER", length = 100)
+	private String login_user;
 	
 	@Column(name = "OBS", length = 200)
 	private String obs;
+	
+	@OneToMany(mappedBy = "categoriaPadrao", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<ItensCategoriaPadrao> itensCategoriaPadrao = new ArrayList<ItensCategoriaPadrao>();
 		
 	@PrePersist
 	public void prePersist() {
@@ -41,6 +61,38 @@ public class CategoriaPadrao implements Serializable{
 		dt_criacao     = atual;
 	}
 	
+	public Boolean getAtivar_contrato() {
+		return ativar_contrato;
+	}
+
+	public void setAtivar_contrato(Boolean ativar_contrato) {
+		this.ativar_contrato = ativar_contrato;
+	}
+
+	public Boolean getDesligar_contrato() {
+		return desligar_contrato;
+	}
+
+	public void setDesligar_contrato(Boolean desligar_contrato) {
+		this.desligar_contrato = desligar_contrato;
+	}
+
+	public String getLogin_user() {
+		return login_user;
+	}
+
+	public void setLogin_user(String login_user) {
+		this.login_user = login_user;
+	}
+
+	public List<ItensCategoriaPadrao> getItensCategoriaPadrao() {
+		return itensCategoriaPadrao;
+	}
+
+	public void setItensCategoriaPadrao(List<ItensCategoriaPadrao> itensCategoriaPadrao) {
+		this.itensCategoriaPadrao = itensCategoriaPadrao;
+	}
+
 	public LocalDateTime getDt_criacao() {
 		return dt_criacao;
 	}

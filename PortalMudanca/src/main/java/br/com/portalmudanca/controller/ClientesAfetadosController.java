@@ -57,6 +57,43 @@ public class ClientesAfetadosController {
 		return new ResponseEntity<ClientesAfetados>(clientesAfetados,HttpStatus.OK);
 	}
 	
-	
+	@ResponseBody
+	@GetMapping(value = "**/obterByIdClientesAfetadosPortal/{id}")
+	public ResponseEntity<ClientesAfetados> obterByIdClientesAfetadosPortal(@PathVariable("id") Long id) throws ExceptionCustomizada { 
+		
+		ClientesAfetados clientesAfetados = clientesAfetadosService.findByIdClientesAfetadosPortal(id);
+		
+		if (clientesAfetados == null)
+			throw new ExceptionCustomizada( "Não encontrou o Clienta Afetado com código: " + id );
+				
+		return new ResponseEntity<ClientesAfetados>( clientesAfetados,HttpStatus.OK );
+	}
+
+	@ResponseBody
+	@GetMapping(value = "**/listaCicloUpdate")
+	public ResponseEntity<List<String>> listaCicloUpdate( ) throws ExceptionCustomizada { 
+		
+		List<String> listaClienteUpdate = clientesAfetadosService.listaCicloUpdate();
+				
+		return new ResponseEntity<List<String>>( listaClienteUpdate, HttpStatus.OK );
+	}
+
+	@ResponseBody
+	@GetMapping(value = "**/clientesAfetadosPorCiclo/{cicloUp}")
+	public ResponseEntity<List<ClientesAfetados>>  listaCicloUpdate( @PathVariable("cicloUp") String cicloUp ) throws ExceptionCustomizada { 
+		
+		List<ClientesAfetados> listaClienteUpdate = clientesAfetadosService.clientesAfetadosPorCiclo(cicloUp);
+				
+		return new ResponseEntity<List<ClientesAfetados>>( listaClienteUpdate, HttpStatus.OK );
+	}
+
+	@ResponseBody
+	@GetMapping(value = "**/getListClientesAfetados/{cliente}")
+	public ResponseEntity<List<ClientesAfetados>>  getListClientesAfetados( @PathVariable("cliente") String cliente ) throws ExceptionCustomizada { 
+		
+		List<ClientesAfetados> listaClienteUpdate = clientesAfetadosService.listClientesAfetados( cliente.toUpperCase() );
+				
+		return new ResponseEntity<List<ClientesAfetados>>( listaClienteUpdate, HttpStatus.OK );
+	}
 
 }

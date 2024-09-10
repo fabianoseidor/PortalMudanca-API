@@ -25,10 +25,21 @@ public class ResponsavelAtividade implements Serializable{
 	
 	@Column(name = "RESPONSAVEL_ATIVIDADE", nullable = false, length = 200)
 	private String responsavel_atividade;
+	
+	@Column(name = "LOGIN_RESPONSAVEL_ATIVIDADE", length = 200)
+	private String login_responsavel_atividade;
 
 	@Column(name = "EMAIL_RESPONSAVEL_ATIVIDADE", nullable = false, length = 200)
 	private String email_responsavel_atividade;
 	
+	public String getLogin_responsavel_atividade() {
+		return login_responsavel_atividade;
+	}
+
+	public void setLogin_responsavel_atividade(String login_responsavel_atividade) {
+		this.login_responsavel_atividade = login_responsavel_atividade;
+	}
+
 	public Long getId_responsavel_atividade() {
 		return id_responsavel_atividade;
 	}

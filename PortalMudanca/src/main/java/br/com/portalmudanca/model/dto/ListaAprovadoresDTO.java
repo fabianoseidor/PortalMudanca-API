@@ -19,11 +19,12 @@ public class ListaAprovadoresDTO {
 	private LocalDateTime dt_aprovacao;
 	private Boolean statusAprovacao;
 	private String aprovador;
+	private String login_aprovador;
 
 	public ListaAprovadoresDTO( Long id_mudanca            , LocalDateTime dt_criacao_mudanca  , String login_user         , StatusRdm status_mudanca, 
 			                    String titulo_mudanca      , String criticidade 	           , String impacto_mudanca    , String tipo_mudanca     , 
 			                    Long id_lista_aprovadores  , LocalDateTime dt_criacao_aprovacao, LocalDateTime dt_aprovacao, Boolean statusAprovacao ,
-			                    String aprovador ) {
+			                    String aprovador, String login_aprovador ) {
 		 this.id_mudanca             = id_mudanca          ;
 		 this.dt_criacao_mudanca     = dt_criacao_mudanca  ;
 		 this.login_user             = login_user          ;
@@ -36,9 +37,21 @@ public class ListaAprovadoresDTO {
 		 this.dt_criacao_aprovacao   = dt_criacao_aprovacao;
 		 this.dt_aprovacao           = dt_aprovacao        ;
 		 this.statusAprovacao        = statusAprovacao     ;
-		 this.aprovador              = aprovador     ;
+		 this.aprovador              = aprovador           ;
+		 this.login_aprovador        = login_aprovador;
 	}
+
 	
+	public String getLogin_aprovador() {
+		return login_aprovador;
+	}
+
+
+	public void setLogin_aprovador(String login_aprovador) {
+		this.login_aprovador = login_aprovador;
+	}
+
+
 	public ListaAprovadoresDTO() {
 		// TODO Auto-generated constructor stub
 	}

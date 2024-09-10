@@ -30,5 +30,29 @@ public class ClientesAfetadosService {
 		return clientesAfetadosRepository.buscarClientesAfetados();
 	}
 	
+	public ClientesAfetados findByIdClientesAfetadosPortal( Long id ) {
+		
+		return clientesAfetadosRepository.findByIdClientesAfetadosPortal(id);
+	}
+	
+	public void updateNovosClientes( ) {
+		
+		clientesAfetadosRepository.upNovosClientes();;
+	}
+
+	public List<String> listaCicloUpdate( ) {
+		
+		return clientesAfetadosRepository.getCicloUpdateCliente();
+	}
+	
+	public List<ClientesAfetados> clientesAfetadosPorCiclo( String cicloUp ) {
+		
+		return clientesAfetadosRepository.getClientesAfetadosPorCiclo( cicloUp );
+	}
+
+	public List<ClientesAfetados> listClientesAfetados( String cliente ) {
+		
+		return clientesAfetadosRepository.listClientesAfetados( cliente );
+	}
 
 }

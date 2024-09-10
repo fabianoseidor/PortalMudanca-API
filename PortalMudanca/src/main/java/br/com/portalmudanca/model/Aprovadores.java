@@ -28,8 +28,10 @@ public class Aprovadores implements Serializable{
 
 	@Column(name = "EMAIL", length = 200 ,nullable = false)
 	private String email;
-
 	
+	@Column(name = "LOGIN_APROVADOR", length = 50)
+	private String login_aprovador;
+
 	@Column(name = "OBS", length = 5000)
 	private String obs;
 	
@@ -50,6 +52,14 @@ public class Aprovadores implements Serializable{
 	
 	public Long getIdAprovadores() {
 		return idAprovadores;
+	}
+
+	public String getLogin_aprovador() {
+		return login_aprovador;
+	}
+
+	public void setLogin_aprovador(String login_aprovador) {
+		this.login_aprovador = login_aprovador;
 	}
 
 	public void setIdAprovadores(Long idAprovadores) {

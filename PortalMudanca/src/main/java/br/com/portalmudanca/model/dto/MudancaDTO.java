@@ -17,6 +17,7 @@ public class MudancaDTO implements Serializable{
 	private String dt_criacao;
 	private String dt_alteracao;
 	private String login_user;
+	private String email_solicitante;
 	private String statusMudanca;
 	private String descricao;
 	private String dt_Inicio_Mudanca;
@@ -30,6 +31,12 @@ public class MudancaDTO implements Serializable{
 	private List<ListaAprovadores> listaAprovadores = new ArrayList<ListaAprovadores>();
 	private List<MudancaClientesAfetados> mudancaClientesAfetados = new ArrayList<MudancaClientesAfetados>();
 
+	public String getEmail_solicitante() {
+		return email_solicitante;
+	}
+	public void setEmail_solicitante(String email_solicitante) {
+		this.email_solicitante = email_solicitante;
+	}
 	public String getDescricao() {
 		return descricao;
 	}

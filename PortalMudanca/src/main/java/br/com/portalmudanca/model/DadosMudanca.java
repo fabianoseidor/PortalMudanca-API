@@ -58,10 +58,21 @@ public class DadosMudanca implements Serializable{
 	@Column(name = "JUSTIFICATIVA_MUDANCA", length = 5000)
 	private String justificativa_mudanca;
 
+ 	@Column( name = "ID_DESCOMISSIONAMENTO")
+	private Long id_descomissionamento;
+
 	@ManyToOne(targetEntity = Mudanca.class)
 	@JoinColumn(name = "id_mudanca", nullable = false, referencedColumnName = "id_mudanca", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_DADOS_MUDANCA_MUD"))
 	private Mudanca mudanca;
 	
+	public Long getId_descomissionamento() {
+		return id_descomissionamento;
+	}
+
+	public void setId_descomissionamento(Long id_descomissionamento) {
+		this.id_descomissionamento = id_descomissionamento;
+	}
+
 	public Mudanca getMudanca() {
 		return mudanca;
 	}

@@ -23,7 +23,7 @@ public interface AprovadoresRepository extends JpaRepository<Aprovadores, Long>{
 	@Query(value = "SELECT a.* FROM aprovadores a where upper(trim(aprovador)) = ?1", nativeQuery = true)
 	Aprovadores existAprovador(String aprovador);
 		
-	@Query(value = "SELECT a.* FROM aprovadores a", nativeQuery = true)
+	@Query(value = "SELECT a.* FROM aprovadores a order by a.aprovador", nativeQuery = true)
 	List<Aprovadores> buscarAprovador();
 	
 	

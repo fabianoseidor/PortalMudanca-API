@@ -22,7 +22,7 @@ public interface ResponsavelAtividadeRepository extends JpaRepository<Responsave
 	@Query(value = "select a.* from responsavel_atividade a where upper(trim(a.responsavel_atividade)) = ?1", nativeQuery = true)
     ResponsavelAtividade findByResponsavelAtividade(String responsavel_atividade);
 
-	@Query(value = "select a.* from responsavel_atividade a", nativeQuery = true)
+	@Query(value = "select a.* from responsavel_atividade a order by a.responsavel_atividade", nativeQuery = true)
 	List<ResponsavelAtividade> listaResponsavelAtividades();
 
 }

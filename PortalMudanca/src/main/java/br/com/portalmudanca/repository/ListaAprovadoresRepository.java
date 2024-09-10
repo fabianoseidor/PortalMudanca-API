@@ -18,7 +18,7 @@ public interface ListaAprovadoresRepository extends JpaRepository<ListaAprovador
 	
 	@Query(value = "select new br.com.portalmudanca.model.dto.ListaAprovadoresDTO( "
 				 + "               mud.id_mudanca                                  "
-				 + "             , mud.dt_criacao as dt_criacao_mudanca            "
+				 + "             , mud.dt_criacao                                  "
 				 + "             , mud.login_user                                  "
 				 + "             , mud.statusMudanca                               "
 				 + "             , mud.titulo_mudanca                              "
@@ -30,6 +30,7 @@ public interface ListaAprovadoresRepository extends JpaRepository<ListaAprovador
 				 + "             , lia.dt_aprovacao                                "
 				 + "             , lia.statusAprovacao                             "
 				 + "             , apr.aprovador                                   "
+				 + "             , apr.login_aprovador                             "
 				 + "         )                                                     "
 				 + "        from                                                   "
 				 + "             ListaAprovadores   lia                            "

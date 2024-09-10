@@ -16,7 +16,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "CRITICIDADE")
 @SequenceGenerator(name = "seq_criticidade", sequenceName = "seq_criticidade", allocationSize = 1, initialValue = 1)
-
 public class Criticidade implements Serializable{
 
 	private static final long serialVersionUID = 4618126659048867283L;

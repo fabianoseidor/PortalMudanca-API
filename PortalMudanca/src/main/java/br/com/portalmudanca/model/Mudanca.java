@@ -58,6 +58,9 @@ public class Mudanca implements Serializable{
 	
 	@Column(name = "LOGIN_USER", length = 100, nullable = false)
 	private String login_user;
+
+	@Column(name = "EMAIL_SOLICITANTE", length = 100 )
+	private String email_solicitante;
 	
 	@Column(name = "DT_FECHAMENTO", columnDefinition = "TIMESTAMP")
 	private LocalDateTime dt_fechamento;
@@ -125,8 +128,15 @@ public class Mudanca implements Serializable{
         dt_criacao   = atual;
         dt_alteracao = atual;
     }
-
     
+	public String getEmail_solicitante() {
+		return email_solicitante;
+	}
+
+	public void setEmail_solicitante(String email_solicitante) {
+		this.email_solicitante = email_solicitante;
+	}
+
 	public LocalDateTime getDt_fechamento() {
 		return dt_fechamento;
 	}

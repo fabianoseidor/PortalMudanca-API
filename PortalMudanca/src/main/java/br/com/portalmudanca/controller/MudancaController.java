@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.portalmudanca.ExceptionCustomizada;
 import br.com.portalmudanca.enums.StatusRdm;
 import br.com.portalmudanca.model.Mudanca;
+import br.com.portalmudanca.model.dto.FechamentoMudancaDTO;
 import br.com.portalmudanca.model.dto.ListaMudancaDTO;
 import br.com.portalmudanca.model.dto.MudancaDTO;
+import br.com.portalmudanca.repository.MudancaRepository;
 import br.com.portalmudanca.service.MudancaService;
 import br.com.portalmudanca.service.ServiceSendEmail;
 
@@ -32,7 +33,12 @@ public class MudancaController {
 	
 	@Autowired
 	private ServiceSendEmail serviceSendEmail;
-
+	
+	@Autowired
+	private MudancaRepository mudancaRepository;
+	
+	
+	
 /*
 	@RequestMapping("cadastroMudanca")
 	@ResponseBody
@@ -54,8 +60,29 @@ public class MudancaController {
 	@ResponseBody
 	@PostMapping(value = "**/enviarEmailHtmlTemplete")
 	public ResponseEntity<String> enviarEmailHtmlTemplete(  ) throws ExceptionCustomizada, UnsupportedEncodingException, MessagingException{
+/*		
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataAtual = LocalDate.now();
+		List<ListaMudancaNaoFechadasDTO> listaMudancaNaoFechadas =  mudancaRepository.gettMudancasNaoFechadas(dataAtual);
+
+		for (ListaMudancaNaoFechadasDTO mdNaoFechada : listaMudancaNaoFechadas) {
+			Long dias = ChronoUnit.DAYS.between( mdNaoFechada.getDt_final(), dataAtual);
+			String msg = "Senhores, favor verificar a GMUD - " + mdNaoFechada.getId_mudanca() + " ( " + mdNaoFechada.getTitulo_mudanca() + " ).\n"
+					    + "A data de fechamento desta foi em " + mdNaoFechada.getDt_final().format(formatter) + " : " + mdNaoFechada.getHr_final() 
+					    + ", com " + dias + " dias de atraso!\n\n"
+					    + "Favor verificar e fechar a GMUD!\n\n"
+					    + "Equipe Seidor Cloud Services";
+			serviceSendEmail.enviarEmailHtml("Mudanças com data de fechamento fora do prazo!", msg.toString(), "fabiano.bolacha@gmail.com");
+		}
+*/		
+		Mudanca mudanca = mudancaRepository.getMudancaPorId(60L);
 		
-		serviceSendEmail.enviarEmailHtmlTemplete("Abertura da GMUD",  "Teste envio e-mail", "fabianoamaral.ti@gmail.com");
+		String textoTitulo   = "Informativo de Aprovação de Mudança - " + mudanca.getTipoMudanca().getTipo_mudanca() + " (ID " + mudanca.getId_mudanca()  + ") - Seidor Cloud";
+		String textoSaldacao = "A Mudança \"" + mudanca.getTitulo_mudanca() + "\" foi aprovada e aquarda execução!"  ;
+   		   		
+		serviceSendEmail.enviarEmailHtmlTemplete(textoTitulo, serviceSendEmail.getMensagemTemplete( textoSaldacao, serviceSendEmail.getCorpoEmalPlanoComunicacao( mudanca ) ), "FABIANOAMARAL.TI@GMAIL.COM" ); 
+		
+//		serviceSendEmail.enviarEmailHtmlTemplete("Abertura da GMUD",  "Teste envio de E-mail 001!", "fabianoamaral.ti@gmail.com");
 		
 		return new ResponseEntity<String>("Einviado com Sucesso", HttpStatus.OK);
 	}
@@ -133,67 +160,30 @@ public class MudancaController {
 		/* Persiste no banco de dados as informacoes da GMUD.                                                                                          */
 		/*                                                                                                                                             */
 		/***********************************************************************************************************************************************/
-		mudanca = mudancaService.saveMudancaNormal(mudanca);
-
-		MudancaDTO mudancaDTO = mudancaService.getMudancaDTO(mudanca);
+		mudanca = mudancaService.saveMudancas(mudanca);
 		
+		MudancaDTO mudancaDTO = mudancaService.getMudancaDTO(mudanca);
+
 		/* ******************************************************************************************************************************************* */
 		/*                                             Monta Email de Abertura                                                                         */
-		/* ******************************************************************************************************************************************* */
-		String textoTitulo   = "Abertura de GMUD";
-		String textoSaldacao = "Foi aberto uma nova GMUD " + mudancaDTO.getId_mudanca() + ", segue abaixo detalhe sobre a Mudança." ;
-		String [][]textoAbertura = new String[][]{ {"Número Mudança"        , mudancaDTO.getId_mudanca().toString() },
-			                                       {"Título da Mudança"     , mudancaDTO.getTitulo_mudanca()        },
-			                                       {"Data da Solicitação"   , mudancaDTO.getDt_criacao()            },
-			                                       {"Solicitante da Mudança", mudancaDTO.getSolicitant_Mudanca()    }, // Aqui Tem Alteracao
-			                                       {"Status da Mudança"     , mudancaDTO.getStatusMudanca()         }
-		                                           };
-		String [][]textoAprovadores = new String[mudancaDTO.getListaAprovadores().size()][mudancaDTO.getListaAprovadores().size()];   
-
-   		for(int i = 0; i < mudancaDTO.getListaAprovadores().size(); i++) {
-   			textoAprovadores[i][0] = "Aprovador " + ( i + 1);
-   			textoAprovadores[i][1] = mudancaDTO.getListaAprovadores().get(i).getAprovadores().getAprovador();
-   		}
-   		
-   		String[][] matrizesJuntas = ArrayUtils.addAll(textoAbertura, textoAprovadores);
+		/* ******************************************************************************************************************************************* */		
+		String textoTitulo   = "Informativo de abertura de nova Mudança - Normal (ID " + mudancaDTO.getId_mudanca()  + ") - Seidor Cloud";
+		String textoSaldacao = "Nova mudança registrada, abaixo os detalhes da atividade: " ;
    		   		
-		serviceSendEmail.enviarEmailHtmlTemplete("Notificação: Abertura da GMUD - Normal (ID " + mudancaDTO.getId_mudanca()  + ")", 
-				                                 serviceSendEmail.getMensagemAbertura(  textoTitulo, textoSaldacao, serviceSendEmail.getTrTd(matrizesJuntas) ), 
-				                                 "fabiano.amaral@seidor.com"); // Aqui Tem Alteracao
+		serviceSendEmail.enviarEmailHtmlTemplete(textoTitulo, serviceSendEmail.getMensagemTemplete( textoSaldacao, serviceSendEmail.getCorpoEmalAbertura( mudancaDTO ) ), mudancaDTO.getEmail_solicitante()); 
 		/* ******************************************************************************************************************************************* */
 		/*                                                                                                                                             */
 		/* ******************************************************************************************************************************************* */
-		String [][]textoCliAf = new String[mudanca.getMudancaClientesAfetados().size()][mudanca.getMudancaClientesAfetados().size()];                                         
-		for(int i = 0; i < mudancaDTO.getMudancaClientesAfetados().size(); i++){
-			textoCliAf[i][0] = "Cliente Afetado " + ( i + 1);
-			textoCliAf[i][1] = mudancaDTO.getMudancaClientesAfetados().get(i).getClientesAfetados().getNome_cliente();
-   		}
-
-		
 		for(int i = 0; i < mudanca.getListaAprovadores().size(); i++) {
-			String textoTituloAprovacao   = "Aprovação de GMUD";
-			String textoSaldacaoAprovacao = "Foi aberto uma nova GMUD " + mudancaDTO.getId_mudanca() + "\n\nSegue abaixo detalhes da mudança, para vossa apreciação e aprovação." ;
-			String [][]textoAberturaAprovacao = new String[][]{ {"Número Mudança"        , mudancaDTO.getId_mudanca().toString() },
-													            {"Título da Mudança"     , mudancaDTO.getTitulo_mudanca()        },
-													            {"Descrição"             , mudancaDTO.getDescricao()             },
-													            {"Data da Solicitação"   , mudancaDTO.getDt_criacao()            },
-													            {"Data Início Mudança"   , mudancaDTO.getDt_Inicio_Mudanca()     },
-													            {"Hora Início Mudança"   , mudancaDTO.getHr_Inicio_Mudanca()     },
-													            {"Data Conclusão Mudança", mudancaDTO.getDt_Conclusao_Mudanca()  },
-													            {"Hora Conclusão Mudança", mudancaDTO.getHr_Conclusao_Mudanca()  },
-													            {"Aprovador"             , mudancaDTO.getListaAprovadores().get(i).getAprovadores().getAprovador() },
-													            {"Solicitante da Mudança", mudancaDTO.getSolicitant_Mudanca()    }, // Aqui Tem Alteracao
-													            {"Status da Mudança"     , mudancaDTO.getStatusMudanca()         },
-													            {"Impacto"               , mudancaDTO.getImpacto()               },
-													            {"Urgência"              , mudancaDTO.getUrgencia()              },
-													            {"Tipo Mudança"          , mudancaDTO.getTipo_Mudanca()          }
-	            };
-	        String[][] matrizesJuntasAprovacao = ArrayUtils.addAll(textoAberturaAprovacao, textoCliAf);     
-			serviceSendEmail.enviarEmailHtmlTemplete("Notificação: Solicitação para Aprovação da GMUD - Normal (ID " + mudanca.getId_mudanca()  + ")", 
-                    serviceSendEmail.getMensagemAbertura(  textoTituloAprovacao, textoSaldacaoAprovacao, serviceSendEmail.getTrTd(matrizesJuntasAprovacao) ), 
-                    mudanca.getListaAprovadores().get(i).getAprovadores().getEmail()); 
-		
+			textoTitulo   = "Informativo de aprovação de Mudança - Normal (ID " + mudancaDTO.getId_mudanca()  + ") - Seidor Cloud";
+		    textoSaldacao = "Nova mudança registrada, e necessita ser aprovada. Abaixo os detalhes da atividade: ";
+			serviceSendEmail.enviarEmailHtmlTemplete( textoTitulo, 
+					                                  serviceSendEmail.getMensagemTemplete( textoSaldacao, serviceSendEmail.getCorpoEmalSolicitacaoAprovacao( mudancaDTO, i ) ),
+					                                  mudanca.getListaAprovadores().get(i).getAprovadores().getEmail() ); 		
 		}
+		/* ******************************************************************************************************************************************* */
+		/*                                                                                                                                             */
+		/* ******************************************************************************************************************************************* */
 		
 		return new ResponseEntity<MudancaDTO>(mudancaDTO, HttpStatus.OK);		
 	}
@@ -279,66 +269,26 @@ public class MudancaController {
 		/* Persiste no banco de dados as informacoes da GMUD.                                                                                          */
 		/*                                                                                                                                             */
 		/***********************************************************************************************************************************************/
-		mudanca = mudancaService.saveMudancaNormal(mudanca);
+		mudanca = mudancaService.saveMudancas(mudanca);
 
 		MudancaDTO mudancaDTO = mudancaService.getMudancaDTO(mudanca);
 		
 		/* ******************************************************************************************************************************************* */
 		/*                                             Monta Email de Abertura                                                                         */
-		/* ******************************************************************************************************************************************* */
-		String textoTitulo   = "Abertura de GMUD";
-		String textoSaldacao = "Foi aberto uma nova GMUD " + mudancaDTO.getId_mudanca() + ", segue abaixo detalhe sobre a Mudança." ;
-		String [][]textoAbertura = new String[][]{ {"Número Mudança"        , mudancaDTO.getId_mudanca().toString() },
-			                                       {"Título da Mudança"     , mudancaDTO.getTitulo_mudanca()        },
-			                                       {"Data da Solicitação"   , mudancaDTO.getDt_criacao()            },
-			                                       {"Solicitante da Mudança", mudancaDTO.getSolicitant_Mudanca()    }, // Aqui Tem Alteracao
-			                                       {"Status da Mudança"     , mudancaDTO.getStatusMudanca()         }
-		                                           };
-		String [][]textoAprovadores = new String[mudancaDTO.getListaAprovadores().size()][mudancaDTO.getListaAprovadores().size()];   
-
-   		for(int i = 0; i < mudancaDTO.getListaAprovadores().size(); i++) {
-   			textoAprovadores[i][0] = "Aprovador " + ( i + 1);
-   			textoAprovadores[i][1] = mudancaDTO.getListaAprovadores().get(i).getAprovadores().getAprovador();
-   		}
-   		
-   		String[][] matrizesJuntas = ArrayUtils.addAll(textoAbertura, textoAprovadores);
+		/* ******************************************************************************************************************************************* */		
+		String textoTitulo   = "Informativo de abertura de nova Mudança - Emergencia (ID " + mudancaDTO.getId_mudanca()  + ") - Seidor Cloud";
+		String textoSaldacao = "Nova mudança registrada, abaixo os detalhes da atividade: " ;
    		   		
-		serviceSendEmail.enviarEmailHtmlTemplete("Notificação: Abertura da GMUD - Emergencia (ID " + mudancaDTO.getId_mudanca()  + ")", 
-				                                 serviceSendEmail.getMensagemAbertura(  textoTitulo, textoSaldacao, serviceSendEmail.getTrTd(matrizesJuntas) ), 
-				                                 "fabiano.amaral@seidor.com"); // Aqui Tem Alteracao
+		serviceSendEmail.enviarEmailHtmlTemplete(textoTitulo, serviceSendEmail.getMensagemTemplete( textoSaldacao, serviceSendEmail.getCorpoEmalAbertura( mudancaDTO ) ), mudancaDTO.getEmail_solicitante()); 
 		/* ******************************************************************************************************************************************* */
 		/*                                                                                                                                             */
 		/* ******************************************************************************************************************************************* */
-		String [][]textoCliAf = new String[mudanca.getMudancaClientesAfetados().size()][mudanca.getMudancaClientesAfetados().size()];                                         
-		for(int i = 0; i < mudancaDTO.getMudancaClientesAfetados().size(); i++){
-			textoCliAf[i][0] = "Cliente Afetado " + ( i + 1);
-			textoCliAf[i][1] = mudancaDTO.getMudancaClientesAfetados().get(i).getClientesAfetados().getNome_cliente();
-   		}
-
-		
 		for(int i = 0; i < mudanca.getListaAprovadores().size(); i++) {
-			String textoTituloAprovacao   = "Aprovação de GMUD - Emergencia";
-			String textoSaldacaoAprovacao = "Foi aberto uma nova GMUD " + mudancaDTO.getId_mudanca() + "\n\nSegue abaixo detalhes da mudança, para vossa apreciação e aprovação." ;
-			String [][]textoAberturaAprovacao = new String[][]{ {"Número Mudança"        , mudancaDTO.getId_mudanca().toString() },
-													            {"Título da Mudança"     , mudancaDTO.getTitulo_mudanca()        },
-													            {"Descrição"             , mudancaDTO.getDescricao()             },
-													            {"Data da Solicitação"   , mudancaDTO.getDt_criacao()            },
-													            {"Data Início Mudança"   , mudancaDTO.getDt_Inicio_Mudanca()     },
-													            {"Hora Início Mudança"   , mudancaDTO.getHr_Inicio_Mudanca()     },
-													            {"Data Conclusão Mudança", mudancaDTO.getDt_Conclusao_Mudanca()  },
-													            {"Hora Conclusão Mudança", mudancaDTO.getHr_Conclusao_Mudanca()  },
-													            {"Aprovador"             , mudancaDTO.getListaAprovadores().get(i).getAprovadores().getAprovador() },
-													            {"Solicitante da Mudança", mudancaDTO.getSolicitant_Mudanca()    }, // Aqui Tem Alteracao
-													            {"Status da Mudança"     , mudancaDTO.getStatusMudanca()         },
-													            {"Impacto"               , mudancaDTO.getImpacto()               },
-													            {"Urgência"              , mudancaDTO.getUrgencia()              },
-													            {"Tipo Mudança"          , mudancaDTO.getTipo_Mudanca()          }
-	            };
-	        String[][] matrizesJuntasAprovacao = ArrayUtils.addAll(textoAberturaAprovacao, textoCliAf);     
-			serviceSendEmail.enviarEmailHtmlTemplete("Notificação: Solicitação para Aprovação da GMUD - Normal (ID " + mudanca.getId_mudanca()  + ")", 
-                    serviceSendEmail.getMensagemAbertura(  textoTituloAprovacao, textoSaldacaoAprovacao, serviceSendEmail.getTrTd(matrizesJuntasAprovacao) ), 
-                    mudanca.getListaAprovadores().get(i).getAprovadores().getEmail()); 
-		
+			textoTitulo   = "Informativo de aprovação de Mudança - Emergencia (ID " + mudancaDTO.getId_mudanca()  + ") - Seidor Cloud";
+		    textoSaldacao = "Nova mudança registrada, e necessita ser aprovada. Abaixo os detalhes da atividade:";
+			serviceSendEmail.enviarEmailHtmlTemplete( textoTitulo, 
+					                                  serviceSendEmail.getMensagemTemplete( textoSaldacao, serviceSendEmail.getCorpoEmalSolicitacaoAprovacao( mudancaDTO, i ) ),
+					                                  mudanca.getListaAprovadores().get(i).getAprovadores().getEmail() ); 		
 		}
 
 		return new ResponseEntity<MudancaDTO>(mudancaDTO, HttpStatus.OK);
@@ -360,7 +310,7 @@ public class MudancaController {
 		/* Informacao sobre o Tipo de Mudanca */
 		if(mudanca.getTipoMudanca() == null) throw new ExceptionCustomizada("ERRO não foi informado o 'Tipo de Mudança'!");			
 
-		mudanca.setStatusMudanca(StatusRdm.AGUARDANDO_APROVACOES);
+		mudanca.setStatusMudanca(StatusRdm.AGUARDANDO_EXECUCAO);
 		
 		/*****************************************************************************************************************/
 		/* Associa o objedo da mudanca no  objeto MudancaClientesAfetados!                                               */
@@ -400,28 +350,17 @@ public class MudancaController {
 		/* Persiste no banco de dados as informacoes da GMUD.                                                                                          */
 		/*                                                                                                                                             */
 		/***********************************************************************************************************************************************/
-		mudanca = mudancaService.saveMudancaNormal(mudanca);
+		mudanca = mudancaService.saveMudancaPadrao(mudanca);
 
 		MudancaDTO mudancaDTO = mudancaService.getMudancaDTO(mudanca);
-		
 		/* ******************************************************************************************************************************************* */
 		/*                                             Monta Email de Abertura                                                                         */
-		/* ******************************************************************************************************************************************* */
-		String textoTitulo   = "Abertura de GMUD";
-		String textoSaldacao = "Foi aberto uma nova GMUD " + mudancaDTO.getId_mudanca() + ", segue abaixo detalhe sobre a Mudança." ;
-		String [][]textoAbertura = new String[][]{ {"Número Mudança"        , mudancaDTO.getId_mudanca().toString() },
-			                                       {"Título da Mudança"     , mudancaDTO.getTitulo_mudanca()        },
-			                                       {"Categoria Padrão"      , mudanca.getCategoriaPadrao().getCategoria_padrao()},
-			                                       {"Data da Solicitação"   , mudancaDTO.getDt_criacao()            },
-			                                       {"Solicitante da Mudança", mudancaDTO.getSolicitant_Mudanca()    }, // Aqui Tem Alteracao
-			                                       {"Status da Mudança"     , mudancaDTO.getStatusMudanca()         }
-		                                           };
-		
-     		   		
-		serviceSendEmail.enviarEmailHtmlTemplete("Notificação: Abertura da GMUD - Emergencia (ID " + mudancaDTO.getId_mudanca()  + ")", 
-				                                 serviceSendEmail.getMensagemAbertura(  textoTitulo, textoSaldacao, serviceSendEmail.getTrTd(textoAbertura) ), 
-				                                 "fabiano.amaral@seidor.com"); // Aqui Tem Alteracao
-		/* ******************************************************************************************************************************************* */
+		/* ******************************************************************************************************************************************* */		
+		String textoTitulo   = "Informativo de abertura de nova Mudança - Padrão (ID " + mudancaDTO.getId_mudanca()  + ") - Seidor Cloud";
+		String textoSaldacao = "Nova mudança registrada, abaixo os detalhes da atividade: " ;
+   		   		
+		serviceSendEmail.enviarEmailHtmlTemplete(textoTitulo, serviceSendEmail.getMensagemTemplete( textoSaldacao, serviceSendEmail.getCorpoEmalAbertura( mudancaDTO ) ), mudancaDTO.getEmail_solicitante()); 
+				/* ******************************************************************************************************************************************* */
 		/*                                                                                                                                             */
 		/* ******************************************************************************************************************************************* */
 		
@@ -551,10 +490,11 @@ public class MudancaController {
 	}
 	
 	@ResponseBody
-	@GetMapping(value = "**/listaMudancaAbertas")
-	public ResponseEntity<List<ListaMudancaDTO>> listaMudancaAbertas( ) throws ExceptionCustomizada{
+	@GetMapping(value = "**/listaMudancaAbertas/{offsetBegin}/{offsetEnd}")
+	public ResponseEntity<List<ListaMudancaDTO>> listaMudancaAbertas( @PathVariable("offsetBegin") int offsetBegin, 
+			                                                          @PathVariable("offsetEnd"  ) int offsetEnd   ) throws ExceptionCustomizada{
 		
-		List<ListaMudancaDTO> listaMudancaDTOs = mudancaService.getListaMudancaAbertas();
+		List<ListaMudancaDTO> listaMudancaDTOs = mudancaService.getListaMudancaAbertas( offsetBegin, offsetEnd);
 		
 		if(listaMudancaDTOs == null) {
 			throw new ExceptionCustomizada("Não existe GMUD com Status em Abertas" );
@@ -563,19 +503,86 @@ public class MudancaController {
 	}
 
 	@ResponseBody
+	@GetMapping(value = "**/qtyTotalMudancaAbertas")
+	public ResponseEntity<Long> qtyTotalMudancaAbertas( ) throws ExceptionCustomizada { 
+
+		Long qtyMudAbertas = mudancaService.qtyTotalMudancaAbertas();
+		
+		return new ResponseEntity<Long>( qtyMudAbertas, HttpStatus.OK );
+	}
+	
+	
+	@ResponseBody
 	@PostMapping("**/updadeStatuGMUD/{statusGMUD}/{idMudanca}")
 	public ResponseEntity<String> updadeStatuGMUD(@PathVariable("statusGMUD") String statusGMUD, 
-			                                     @PathVariable("idMudanca") Long idMudanca){
+			                                      @PathVariable("idMudanca") Long idMudanca){
 		StatusRdm statusRdm = StatusRdm.valueOf(statusGMUD);
 		mudancaService.updateStatusGMUD(idMudanca, statusRdm);	
 	    return new ResponseEntity<String>("sucesso", HttpStatus.OK);
 	}
 	
 	@ResponseBody
-	@PostMapping("**/updadeStatuFechamentoGMUD/{statusGMUD}/{idMudanca}")
-	public ResponseEntity<String> updadeStatuFechamentoGMUD(@PathVariable("statusGMUD") String statusGMUD, 
-			                                     @PathVariable("idMudanca") Long idMudanca){
-		mudancaService.updateFechamentoGMUD(idMudanca, statusGMUD);	
+	@PostMapping("**/updadeStatuFechamentoGMUD/{statusGMUD}/{idMudanca}/{reportFinal}")
+	public ResponseEntity<String> updadeStatuFechamentoGMUD(@PathVariable("statusGMUD" ) String statusGMUD , 
+			                                                @PathVariable("idMudanca"  ) Long idMudanca    ,
+			                                                @PathVariable("reportFinal") String reportFinal){
+		
+		mudancaService.updateFechamentoGMUD( idMudanca, statusGMUD, reportFinal );	
+		
+		try {
+			// Envio do e-mail de encerramento da GMD.
+			mudancaService.sendEmailEncerramento(idMudanca);
+		} catch (UnsupportedEncodingException | MessagingException e) {
+			e.printStackTrace();
+		}
+		
+		
+	    return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+	}
+
+	@ResponseBody
+	@PostMapping("**/updadeStatuFechamentoMudancaDTO")
+	public ResponseEntity<String> updadeStatuFechamentoGMUD( @RequestBody FechamentoMudancaDTO fechamentoMudancaDTO ){
+		
+		mudancaService.updateFechamentoGMUD( fechamentoMudancaDTO.getIdMudanca(), fechamentoMudancaDTO.getStatusGMUD(), fechamentoMudancaDTO.getReportFinal() );	
+		
+		try {
+			// Envio do e-mail de encerramento da GMD.
+			mudancaService.sendEmailEncerramento(fechamentoMudancaDTO.getIdMudanca());
+		} catch (UnsupportedEncodingException | MessagingException e) {
+			e.printStackTrace();
+		}
+		
+		
+	    return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+	}
+
+	@ResponseBody
+	@PostMapping("**/updadeStatuFechamentoPadraoMudancaDTO")
+	public ResponseEntity<String> updadeStatuFechamentoPadraoGMUD( @RequestBody FechamentoMudancaDTO fechamentoMudancaDTO ){
+		
+		mudancaService.updateFechamentoPadraoGMUD( fechamentoMudancaDTO.getIdMudanca(), fechamentoMudancaDTO.getStatusGMUD() );	
+		
+		try {
+			// Envio do e-mail de encerramento da GMD.
+			mudancaService.sendEmailEncerramento( fechamentoMudancaDTO.getIdMudanca() );
+		} catch (UnsupportedEncodingException | MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	    return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+	}
+	
+	
+	
+	@ResponseBody
+	@PostMapping("**/updadeStatuFechamentoPadraoGMUD/{statusGMUD}/{idMudanca}")
+	public ResponseEntity<String> updadeStatuFechamentoPadraoGMUD(@PathVariable("statusGMUD" ) String statusGMUD , 
+			                                                      @PathVariable("idMudanca"  ) Long idMudanca    ){
+		
+		mudancaService.updateFechamentoPadraoGMUD( idMudanca, statusGMUD );	
 		
 		try {
 			// Envio do e-mail de encerramento da GMD.
@@ -589,5 +596,18 @@ public class MudancaController {
 	    return new ResponseEntity<String>("sucesso", HttpStatus.OK);
 	}
 
+	@ResponseBody
+	@GetMapping(value = "**/getlistaMudancaClienteAfetados/{idClienteAfetado}")
+	public ResponseEntity<List<Mudanca>> getlistaMudancaClienteAfetados( @PathVariable("idClienteAfetado") Long idClienteAfetado ) throws ExceptionCustomizada{
+		
+
+		
+		List<Mudanca> listaMudanca = mudancaService.getlistaMudancaClienteAfetados( idClienteAfetado );
+		
+		if(listaMudanca == null) {
+			throw new ExceptionCustomizada("Não foi encontrada GMUD's para este Cliente!" );
+		}
+		return new ResponseEntity<List<Mudanca>>(listaMudanca, HttpStatus.OK);		
+	}
 
 }

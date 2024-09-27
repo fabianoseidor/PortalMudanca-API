@@ -43,6 +43,12 @@ public class ClientesAfetadosController {
 		return new ResponseEntity<List<ClientesAfetados>>(clientesAfetados, HttpStatus.OK);
 	}
 	
+	@ResponseBody
+	@GetMapping(value = "**/listaClientesAfetadosAlias")
+	public ResponseEntity<List<ClientesAfetados>> listaClientesAfetadosAlias(  ) throws ExceptionCustomizada{
+		List<ClientesAfetados> clientesAfetados = clientesAfetadosService.listaClientesAfetadoAlias();
+		return new ResponseEntity<List<ClientesAfetados>>(clientesAfetados, HttpStatus.OK);
+	}
 	
 	@ResponseBody
 	@GetMapping(value = "**/obterClientesAfetadosPorId/{id}")

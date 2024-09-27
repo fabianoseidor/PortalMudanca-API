@@ -45,7 +45,18 @@ public class ListaAprovadoresController {
 		}		
 		return new ResponseEntity<List<ListaAprovadoresDTO>>(listaAprovadoresDTO,HttpStatus.OK);
 	}
-	
+
+	@ResponseBody
+	@GetMapping(value = "**/listaGMUDAprovarPorLogin/{login}")
+	public ResponseEntity<List<ListaAprovadoresDTO>> listaGMUDAprovarPorLogin( @PathVariable("login") String login ) throws ExceptionCustomizada { 
+		
+		List<ListaAprovadoresDTO> listaAprovadoresDTO = listaAprovadoresRepository.buscarListaAprovacaoPorAprovador( login );
+		if(listaAprovadoresDTO == null) {
+			throw new ExceptionCustomizada("Não existe GMUD para ser aprovada" );
+		}		
+		return new ResponseEntity<List<ListaAprovadoresDTO>>(listaAprovadoresDTO,HttpStatus.OK);
+	}
+
 	@RequestMapping(method = RequestMethod.POST, value = "**/aprovacaoGMUD/{idListaAprovadores}/{idMudanca}")
 	public ResponseEntity<String> aprovacaoGMUD(@PathVariable("idListaAprovadores") Long idListaAprovadores, 
 			                                    @PathVariable("idMudanca") Long idMudanca) throws UnsupportedEncodingException, MessagingException{

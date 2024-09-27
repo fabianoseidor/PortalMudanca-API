@@ -16,7 +16,10 @@ public interface ClientesAfetadosRepository extends JpaRepository<ClientesAfetad
 
 	@Query(value = "SELECT * FROM clientes_afetados order by nome_cliente", nativeQuery = true)
 	List<ClientesAfetados> buscarClientesAfetados();
-	
+
+	@Query(value = "SELECT * FROM clientes_afetados where alias is not NULL order by alias", nativeQuery = true)
+	List<ClientesAfetados> buscarClientesAfetadosAlias();
+
 	@Query(value = "SELECT a.* FROM clientes_afetados a where a.id_clientes_af = ?1", nativeQuery = true)
 	ClientesAfetados findByIdClientesAfetados(Long id_clientes_af);
 	
@@ -24,12 +27,14 @@ public interface ClientesAfetadosRepository extends JpaRepository<ClientesAfetad
 	ClientesAfetados findByIdClientesAfetadosPortal(Long id_clientes_af);
 	
 	@Modifying(flushAutomatically = true)
-	@Query(nativeQuery = true, value = " INSERT INTO [PORTALRDM_PRD].[dbo].[clientes_afetados] ( id_clientes_af, id_cliente_portal, dt_criacao, nome_cliente ) "
+	@Query(nativeQuery = true, value = " INSERT INTO [PORTALRDM_PRD].[dbo].[clientes_afetados] ( id_clientes_af, id_cliente_portal, dt_criacao, nome_cliente, ciclo_update, alias ) "
 		   	                         + " SELECT                                                                                                                "
 			                         + "      NEXT VALUE FOR [dbo].[seq_clientes_afetados]                                                                     "
 			                         + "    , ID_CLIENTE                                                                                                       "
 			                         + "    , getdate()                                                                                                        "
-			                         + "    ,RAZAO_SOCIAL                                                                                                      "
+			                         + "    , RAZAO_SOCIAL                                                                                                     "
+			                         + "    , 'NÃO DEFINIDO'                                                                                                   "
+			                         + "    , alias                                                                                                            "
 			                         + "  FROM [PORTALMULTICLOUD_PRD].[dbo].[CLIENTE] AS CLI                                                                   "
 			                         + " WHERE NOT EXISTS ( SELECT * FROM clientes_afetados PS WHERE PS.id_cliente_portal = CLI.ID_CLIENTE )                   ")
 	void upNovosClientes( );		

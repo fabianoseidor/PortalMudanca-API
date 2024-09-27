@@ -30,6 +30,11 @@ public class ClientesAfetadosService {
 		return clientesAfetadosRepository.buscarClientesAfetados();
 	}
 	
+	public List<ClientesAfetados> listaClientesAfetadoAlias( ) {
+		
+		return clientesAfetadosRepository.buscarClientesAfetadosAlias();
+	}
+	
 	public ClientesAfetados findByIdClientesAfetadosPortal( Long id ) {
 		
 		return clientesAfetadosRepository.findByIdClientesAfetadosPortal(id);

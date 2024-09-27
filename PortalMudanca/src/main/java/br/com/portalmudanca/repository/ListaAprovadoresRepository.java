@@ -42,6 +42,35 @@ public interface ListaAprovadoresRepository extends JpaRepository<ListaAprovador
 				 + " WHERE lia.mudanca.statusMudanca = 'AGUARDANDO_APROVACOES'     " )
 	List<ListaAprovadoresDTO> buscarListaAprovacao();
 
+	@Query(value = "select new br.com.portalmudanca.model.dto.ListaAprovadoresDTO( "
+			 + "               mud.id_mudanca                                  "
+			 + "             , mud.dt_criacao                                  "
+			 + "             , mud.login_user                                  "
+			 + "             , mud.statusMudanca                               "
+			 + "             , mud.titulo_mudanca                              "
+			 + "             , cri.criticidade                                 "
+			 + "             , imp.impacto_mudanca                             "
+			 + "             , tim.tipo_mudanca                                "
+			 + "             , lia.id_lista_aprovadores                        "
+			 + "             , lia.dt_criacao as dt_criacao_aprovacao          "
+			 + "             , lia.dt_aprovacao                                "
+			 + "             , lia.statusAprovacao                             "
+			 + "             , apr.aprovador                                   "
+			 + "             , apr.login_aprovador                             "
+			 + "             , dam.dsc_mudanca                                 "
+			 + "             , dam.justificativa_mudanca                       "
+			 + "         )                                                     "
+			 + "        from                                                   "
+			 + "             ListaAprovadores   lia                            "
+			 + "        JOIN lia.aprovadores    apr                            "
+			 + "        JOIN lia.mudanca        mud                            "
+			 + "        JOIN mud.criticidade    cri                            "
+			 + "        JOIN mud.impactoMudanca imp                            "
+			 + "        JOIN mud.tipoMudanca    tim                            "
+			 + "        JOIN mud.dadosMudanca   dam                            "
+			 + " WHERE lia.mudanca.statusMudanca = 'AGUARDANDO_APROVACOES'     "
+			 + "   AND apr.login_aprovador       = ?1                          " )
+	List<ListaAprovadoresDTO> buscarListaAprovacaoPorAprovador( String loginAprovador );
 	/* ******************************************************************************************* */
 	/*                                                                                             */
 	/*          Realiza a Aprovacao e Reprovacao das GMUD, atualizando os Campos:                  */

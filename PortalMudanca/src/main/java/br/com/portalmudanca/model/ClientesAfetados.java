@@ -33,9 +33,12 @@ public class ClientesAfetados implements Serializable{
 	@Column(name = "NOME_CLIENTE", nullable = false, length = 100)
 	private String nome_cliente;
 
+	@Column(name = "ALIAS", length = 100)
+	private String alias;
+
 	@Column(name = "CICLO_UPDATE", length = 100)
 	private String ciclo_update;
-	
+
 	@JsonIgnore
 	@Column(name = "DT_CRIACAO", nullable = false, columnDefinition = "TIMESTAMP")
 	private LocalDateTime dt_criacao;
@@ -61,6 +64,14 @@ public class ClientesAfetados implements Serializable{
         final LocalDateTime atual =  LocalDateTime.now();
         dt_criacao   = atual;
     }
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
 
 	public String getCiclo_update() {
 		return ciclo_update;

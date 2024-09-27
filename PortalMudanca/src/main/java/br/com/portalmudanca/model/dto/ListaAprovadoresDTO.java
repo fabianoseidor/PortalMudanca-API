@@ -6,25 +6,27 @@ import br.com.portalmudanca.enums.StatusRdm;
 
 public class ListaAprovadoresDTO {
 
-	private Long id_mudanca;
+	private Long          id_mudanca;
 	private LocalDateTime dt_criacao_mudanca;
-	private String login_user;
-	private StatusRdm statusMudanca;
-	private String titulo_mudanca;
-	private String criticidade;
-	private String impacto_mudanca;
-	private String tipo_mudanca;
-	private Long id_lista_aprovadores;
+	private String        login_user;
+	private StatusRdm     statusMudanca;
+	private String        titulo_mudanca;
+	private String        criticidade;
+	private String        impacto_mudanca;
+	private String        tipo_mudanca;
+	private Long          id_lista_aprovadores;
 	private LocalDateTime dt_criacao_aprovacao;
 	private LocalDateTime dt_aprovacao;
-	private Boolean statusAprovacao;
-	private String aprovador;
-	private String login_aprovador;
+	private Boolean       statusAprovacao;
+	private String        aprovador;
+	private String        login_aprovador;
+	private String        dsc_mudanca;
+	private String        just_mudanca;
 
 	public ListaAprovadoresDTO( Long id_mudanca            , LocalDateTime dt_criacao_mudanca  , String login_user         , StatusRdm status_mudanca, 
 			                    String titulo_mudanca      , String criticidade 	           , String impacto_mudanca    , String tipo_mudanca     , 
 			                    Long id_lista_aprovadores  , LocalDateTime dt_criacao_aprovacao, LocalDateTime dt_aprovacao, Boolean statusAprovacao ,
-			                    String aprovador, String login_aprovador ) {
+			                    String aprovador           , String login_aprovador ) {
 		 this.id_mudanca             = id_mudanca          ;
 		 this.dt_criacao_mudanca     = dt_criacao_mudanca  ;
 		 this.login_user             = login_user          ;
@@ -41,7 +43,58 @@ public class ListaAprovadoresDTO {
 		 this.login_aprovador        = login_aprovador;
 	}
 
+	public ListaAprovadoresDTO( Long   id_mudanca          , LocalDateTime dt_criacao_mudanca  , String        login_user     , StatusRdm status_mudanca , 
+					            String titulo_mudanca      , String        criticidade 	       , String        impacto_mudanca, String    tipo_mudanca   , 
+					            Long   id_lista_aprovadores, LocalDateTime dt_criacao_aprovacao, LocalDateTime dt_aprovacao   , Boolean   statusAprovacao,
+					            String aprovador           , String        login_aprovador     , String        dsc_mudanca    , String    just_mudanca) {
+			this.id_mudanca             = id_mudanca          ;
+			this.dt_criacao_mudanca     = dt_criacao_mudanca  ;
+			this.login_user             = login_user          ;
+			this.statusMudanca          = status_mudanca      ;
+			this.titulo_mudanca         = titulo_mudanca      ;
+			this.criticidade 	        = criticidade 	      ;
+			this.impacto_mudanca        = impacto_mudanca     ;
+			this.tipo_mudanca           = tipo_mudanca        ;
+			this.id_lista_aprovadores 	= id_lista_aprovadores;
+			this.dt_criacao_aprovacao   = dt_criacao_aprovacao;
+			this.dt_aprovacao           = dt_aprovacao        ;
+			this.statusAprovacao        = statusAprovacao     ;
+			this.aprovador              = aprovador           ;
+			this.login_aprovador        = login_aprovador     ;
+			this.dsc_mudanca            = dsc_mudanca         ;
+			this.just_mudanca           = just_mudanca        ;
+	}
 	
+	public StatusRdm getStatusMudanca() {
+		return statusMudanca;
+	}
+
+
+	public void setStatusMudanca(StatusRdm statusMudanca) {
+		this.statusMudanca = statusMudanca;
+	}
+
+
+	public String getDsc_mudanca() {
+		return dsc_mudanca;
+	}
+
+
+	public void setDsc_mudanca(String dsc_mudanca) {
+		this.dsc_mudanca = dsc_mudanca;
+	}
+
+
+	public String getJust_mudanca() {
+		return just_mudanca;
+	}
+
+
+	public void setJust_mudanca(String just_mudanca) {
+		this.just_mudanca = just_mudanca;
+	}
+
+
 	public String getLogin_aprovador() {
 		return login_aprovador;
 	}

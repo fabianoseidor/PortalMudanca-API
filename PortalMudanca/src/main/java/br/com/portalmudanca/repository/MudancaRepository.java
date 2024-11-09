@@ -105,4 +105,9 @@ public interface MudancaRepository extends JpaRepository<Mudanca, Long>{
 			                         + " WHERE ID_DESCOMISSIONAMENTO = ?1                            ")
 	void upDesligueInfraPRD(Long id, String userDesligamento);		
 
+	
+	@Modifying(flushAutomatically = true)
+	@Query(nativeQuery = true, value = "UPDATE mudanca SET status_mudanca = 'AGUARDANDO_APROVACOES', dt_alteracao = NULL WHERE id_mudanca = ?1")
+	void updateResetAprovacao(Long id);		
+	
 }

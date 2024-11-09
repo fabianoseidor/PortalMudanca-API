@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.portalmudanca.ExceptionCustomizada;
 import br.com.portalmudanca.model.Mudanca;
 import br.com.portalmudanca.model.dto.ListaAprovadoresDTO;
+import br.com.portalmudanca.model.dto.ReprovacaoDTO;
 import br.com.portalmudanca.repository.ListaAprovadoresRepository;
 import br.com.portalmudanca.repository.MudancaRepository;
 import br.com.portalmudanca.service.ServiceSendEmail;
@@ -56,6 +58,18 @@ public class ListaAprovadoresController {
 		}		
 		return new ResponseEntity<List<ListaAprovadoresDTO>>(listaAprovadoresDTO,HttpStatus.OK);
 	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/listaGMUDPorAprovador/{login}")
+	public ResponseEntity<List<ListaAprovadoresDTO>> listaGMUDPorAprovador( @PathVariable("login") String login ) throws ExceptionCustomizada { 
+		
+		List<ListaAprovadoresDTO> listaAprovadoresDTO = listaAprovadoresRepository.listaGMUDPorAprovador( login );
+		if(listaAprovadoresDTO == null) {
+			throw new ExceptionCustomizada("Não existe GMUD para ser aprovada" );
+		}		
+		return new ResponseEntity<List<ListaAprovadoresDTO>>(listaAprovadoresDTO,HttpStatus.OK);
+	}
+
 
 	@RequestMapping(method = RequestMethod.POST, value = "**/aprovacaoGMUD/{idListaAprovadores}/{idMudanca}")
 	public ResponseEntity<String> aprovacaoGMUD(@PathVariable("idListaAprovadores") Long idListaAprovadores, 
@@ -104,12 +118,19 @@ public class ListaAprovadoresController {
 	    return new ResponseEntity<String>("sucesso", HttpStatus.OK);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "**/reprovacaoGMUD/{idListaAprovadores}/{idMudanca}")
-	public ResponseEntity<String> reprovacaoGMUD(@PathVariable("idListaAprovadores") Long idListaAprovadores, 
-			                                     @PathVariable("idMudanca") Long idMudanca) throws UnsupportedEncodingException, MessagingException{
+//	@RequestMapping(method = RequestMethod.POST, value = "**/reprovacaoGMUD/{idListaAprovadores}/{idMudanca}")
+//	public ResponseEntity<String> reprovacaoGMUD(@PathVariable("idListaAprovadores") Long idListaAprovadores, 
+//			                                     @PathVariable("idMudanca") Long idMudanca) throws UnsupportedEncodingException, MessagingException{
+	@ResponseBody  
+	@RequestMapping(method = RequestMethod.POST, value = "**/reprovacaoGMUD")
+	public ResponseEntity<String> reprovacaoGMUD(@RequestBody ReprovacaoDTO reprovacaoDTO) throws UnsupportedEncodingException, MessagingException{
+
+		listaAprovadoresRepository.updateReprovacaoGmud( reprovacaoDTO.getMotivo_rejeicao(),  reprovacaoDTO.getId_lista_aprovadores() );		  
+        mudancaRepository.updateStatusGmudRejeitada(reprovacaoDTO.getId_mudanca());
+	
 		
-		listaAprovadoresRepository.updateReprovacaoGmud(idListaAprovadores);		  
-        mudancaRepository.updateStatusGmudRejeitada(idMudanca);
+//		listaAprovadoresRepository.updateReprovacaoGmud(idListaAprovadores);		  
+//        mudancaRepository.updateStatusGmudRejeitada(idMudanca);
 /*       
  retirado o fluxo de e-mail a pedido do Eugenio.
   
@@ -143,6 +164,17 @@ public class ListaAprovadoresController {
 		}			
 */		
 	    return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+	}
+	
+	@ResponseBody  
+	@RequestMapping(method = RequestMethod.POST, value = "**/resetAprvacaoGMUD/{idMudanca}")
+	public ResponseEntity<String> resetAprvacaoGMUD( @PathVariable("idMudanca") Long idMudanca ) throws UnsupportedEncodingException, MessagingException{
+
+
+		listaAprovadoresRepository.updateRestListaAprovGmud( idMudanca );		  
+        mudancaRepository.updateResetAprovacao(idMudanca);
+		
+		return new ResponseEntity<String>("sucesso", HttpStatus.OK);
 	}
 	
 

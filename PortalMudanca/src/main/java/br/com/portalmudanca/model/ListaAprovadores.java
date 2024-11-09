@@ -49,6 +49,9 @@ public class ListaAprovadores implements Serializable{
 	
 	@Column(name = "DT_CRIACAO", nullable = false, columnDefinition = "TIMESTAMP")
 	private LocalDateTime dt_criacao;
+	
+	@Column(name = "MOTIVO_REJEICAO", length = 5000)
+	private String motivo_rejeicao;
 
     @PrePersist
     public void prePersist() {
@@ -66,6 +69,26 @@ public class ListaAprovadores implements Serializable{
 	public Long getId_lista_aprovadores() {
 		return id_lista_aprovadores;
 	}
+
+	public LocalDateTime getDt_reprovacao() {
+		return dt_reprovacao;
+	}
+
+
+	public void setDt_reprovacao(LocalDateTime dt_reprovacao) {
+		this.dt_reprovacao = dt_reprovacao;
+	}
+
+
+	public String getMotivo_rejeicao() {
+		return motivo_rejeicao;
+	}
+
+
+	public void setMotivo_rejeicao(String motivo_rejeicao) {
+		this.motivo_rejeicao = motivo_rejeicao;
+	}
+
 
 	public LocalDateTime getDt_aprovacao() {
 		return dt_aprovacao;
